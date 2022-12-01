@@ -4,6 +4,7 @@ import jwtService from "@/common/jwt.service";
 
 type State = {
     token: string | null
+    error: string | null
 }
 
 type LoginPayload = {
@@ -14,13 +15,14 @@ type LoginPayload = {
 const Auth = {
     state(): State {
         return {
-            token: null
+            token: null,
+            error: null,
         }
     },
     getters: {
-      isAuthenticated(state: State) {
-        return state.token != null
-      }
+        isAuthenticated(state: State) {
+            return state.token != null
+        }
     },
     mutations: {
         setToken(state: State, token: string) {
@@ -28,18 +30,28 @@ const Auth = {
         },
         clearToken(state: State) {
             state.token = null
-        }
+        },
+        setError(state: State, error: string) {
+            state.error = error
+        },
+        clearError(state: State) {
+            state.error = null
+        },
     },
     actions: {
-        async login({ commit }: ActionContext<State, any>, { username, password}: LoginPayload ) {
+        async login({commit}: ActionContext<State, any>, {username, password}: LoginPayload) {
             try {
+                commit('clearError')
                 const response = await ApiService.auth.login(username, password)
                 commit('setToken', response.data.token)
                 jwtService.saveToken(response.data.token)
-            } catch(err: any) {
+            } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
-                console.error(err.message)
-                return false
+                commit('setError', err.message)
+                throw {
+                    ...err,
+                    stack: null, // do not spam console
+                }
             }
         }
     },
