@@ -45,6 +45,7 @@ const Auth = {
                 const response = await ApiService.auth.login(username, password)
                 commit('setToken', response.data.token)
                 jwtService.saveToken(response.data.token)
+                ApiService.setAuthHeader(response.data.token)
             } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
                 commit('setError', err.message)
