@@ -1,6 +1,6 @@
 <template>
 
-  <div id="mapContainer"></div>
+  <div id="mapContainer" ></div> 
 </template>
 
 <script>
@@ -31,9 +31,12 @@ export default {
 };
 </script>
 
+
+
 <style scoped>
 #mapContainer {
-  width: 100vw;
-  height: 100vh;
+  width: 600px;
+  height: 600px;
+  align-content: center;
 }
 </style>
