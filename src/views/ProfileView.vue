@@ -9,6 +9,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ProfileView",
+  mounted() {
+    if (!this.$store.getters.isAuthenticated) {
+      this.$router.push({name: "login"})
+    }
+  },
   data() {
     return {};
   },

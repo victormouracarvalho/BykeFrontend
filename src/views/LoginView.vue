@@ -42,6 +42,9 @@ export default {
   name: "BykeLoginView",
   mounted() {
     this.$store.commit("clearError")
+    if (this.$store.getters.isAuthenticated) {
+      this.$router.push({name: 'profile'})
+    }
   },
   data() {
     return {
