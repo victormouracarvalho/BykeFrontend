@@ -40,6 +40,9 @@ import { mapState } from "vuex"
 
 export default {
   name: "BykeLoginView",
+  mounted() {
+    this.$store.commit("clearError")
+  },
   data() {
     return {
       username: null,
