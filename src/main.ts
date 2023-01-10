@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 
 import ApiService from "@/common/api.service";
-import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap"
 import './assets/main.css'
 
 

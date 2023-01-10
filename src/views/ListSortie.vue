@@ -4,34 +4,24 @@
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
+        <th>id</th>
         <th>DateSortie</th>
         <th>DistanceParcours</th>
         <th>HeureArrivee</th>
         <th>HeureDepart</th>
-        <th>id</th>
         <th>lieuDepart</th>
         <th>numUtil</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="user in users" :key="user.id">
-        <td>{{user.firstName}} {{user.lastName}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.role}}</td>
-      </tr>
-
-      <tr v-for="i in jsonObj" :key="i">
-        <td>{{i.id}}</td>
-        <td>{{i.DateSortie}}</td>
-        <td>{{i.DistanceParcourue}}</td>
-        <td>{{i.heureArrivee}}</td>
-        <td>{{i.heureDepart}}</td>
-        <td>{{i.lieuDepart}}</td>
-        <td>{{i.numUtil}}</td>
+      <tr v-for="sortie in jsonObj" :key="sortie.id">
+        <td>{{sortie.id}}</td>
+        <td>{{sortie.dateSortie}}</td>
+        <td>{{sortie.distanceParcourue}}</td>
+        <td>{{sortie.heureArrivee}}</td>
+        <td>{{sortie.heureDepart}}</td>
+        <td>{{sortie.lieuDepart}}</td>
+        <td>{{sortie.numUtil}}</td>
       </tr>
       </tbody>
     </table>
@@ -40,40 +30,30 @@
 
 <script>
 import axios from "axios";
-const TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNZXJsb3QiLCJleHAiOjE2NzMzNzQxNDIsImlhdCI6MTY3MzM1MjU0Mn0.k-x_Ztsm0pmHrAi13NSnkVw7w72W7AaLBRnA51BArlufmfEQgIe-k8ilG4TyaxsxKw0i3PsnDshv8z9rFD4jjA';
-const BASEURL = 'http://localhost:8080';
-const ENDPOINT = '/sorties';
-let jsonObj
-axios.create({
-  baseURL: BASEURL,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer '+TOKEN
-  }
-})
-    .get(ENDPOINT)
-    .then(res => {
-      console.log(res)
-      console.log(JSON.parse(res.request.response))
-      jsonObj = JSON.parse(res.request.response)
-      console.log(jsonObj)
-    });
+
 
 
 export default {
+  async created() {
+    const TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNZXJsb3QiLCJleHAiOjE2NzMzOTgzMDUsImlhdCI6MTY3MzM3NjcwNX0.SYxfBN4Xjd0nXG8S4ajOkShouX8FuKv2clEi_Ufn8THC5HWSiRPKhZ9hTmIehfmobEA6xjtirTzuF5XHQih60A';
+    const BASEURL = 'http://localhost:8080';
+    const ENDPOINT = '/sorties';
+    let jsonObj
+    let res = await axios.create({
+      baseURL: BASEURL,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+TOKEN
+      }
+    }).get(ENDPOINT)
 
+    console.log(res)
+    this.jsonObj = JSON.parse(res.request.response)
+    console.log(jsonObj)
+  },
   data() {
-
-
     return {
-      users: [
-        { firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
-        { firstName: 'Vic', lastName: 'Reynolds', email: 'vic.reynolds@test.com', role: 'Admin' },
-        { firstName: 'Gina', lastName: 'Jabowski', email: 'gina.jabowski@test.com', role: 'Admin' },
-        { firstName: 'Jessi', lastName: 'Glaser', email: 'jessi.glaser@test.com', role: 'User' },
-        { firstName: 'Jay', lastName: 'Bilzerian', email: 'jay.bilzerian@test.com', role: 'User' }
-      ],
-      jsonObj
+      jsonObj: null,
     };
   }
 };
