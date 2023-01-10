@@ -54,7 +54,12 @@ const Auth = {
                     stack: null, // do not spam console
                 }
             }
-        }
+        },
+        async logout({commit}: ActionContext<State, any>) {
+            commit('clearToken')
+            jwtService.destroyToken()
+            ApiService.removeAuthHeader()
+        },
     },
 }
 

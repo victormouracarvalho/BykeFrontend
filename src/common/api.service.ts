@@ -8,6 +8,9 @@ const ApiService = {
     setAuthHeader(token: string) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     },
+    removeAuthHeader() {
+        axios.defaults.headers.common["Authorization"] = ""
+    },
     auth: {
       login(username: string, password: string) {
            return axios.post("/login", {
