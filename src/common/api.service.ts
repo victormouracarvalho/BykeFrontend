@@ -12,12 +12,18 @@ const ApiService = {
         axios.defaults.headers.common["Authorization"] = ""
     },
     auth: {
-      login(username: string, password: string) {
-           return axios.post("/login", {
-              'pseudoUtil': username,
-              'mdpUtil': password,
-          })
-      }
+        login(username: string, password: string) {
+            return axios.post("/login", {
+                'pseudoUtil': username,
+                'mdpUtil': password,
+            })
+        },
+        register(username: string, password: string) {
+            return axios.post("/register", {
+                'pseudoUtil': username,
+                'mdpUtil': password,
+            })
+        },
     },
 }
 

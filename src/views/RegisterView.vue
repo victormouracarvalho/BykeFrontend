@@ -3,9 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Connexion</h1>
+          <h1 class="text-xs-center">Créer un compte</h1>
             <p class="text-xs-center" style="margin-bottom: 4px;">
-              <RouterLink to="register">Vous êtes nouveau ?</RouterLink>
+              <RouterLink to="login">Vous avez déjà un compte ?</RouterLink>
             </p>
           <p v-if="error" class="error-messages">{{ error }}</p>
           <form @submit.prevent="onSubmit(username, password)">
@@ -26,7 +26,7 @@
               />
             </fieldset>
             <button class="btn btn-lg btn-primary pull-xs-right">
-              Connexion
+              Créer un compte
             </button>
           </form>
         </div>
@@ -39,7 +39,7 @@
 import { mapState } from "vuex"
 
 export default {
-  name: "BykeLoginView",
+  name: "BykeRegisterView",
   data() {
     return {
       username: null,
@@ -49,7 +49,7 @@ export default {
   methods: {
     onSubmit(username, password) {
       this.$store
-          .dispatch('login', {username, password})
+          .dispatch('register', {username, password})
           .then(() => this.$router.push({name: "profile"}))
     },
   },
