@@ -30,26 +30,13 @@
 
 <script>
 import axios from "axios";
+import ApiService from "../common/api.service";
 
 
 
 export default {
   async created() {
-    const TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNZXJsb3QiLCJleHAiOjE2NzMzOTgzMDUsImlhdCI6MTY3MzM3NjcwNX0.SYxfBN4Xjd0nXG8S4ajOkShouX8FuKv2clEi_Ufn8THC5HWSiRPKhZ9hTmIehfmobEA6xjtirTzuF5XHQih60A';
-    const BASEURL = 'http://localhost:8080';
-    const ENDPOINT = '/sorties';
-    let jsonObj
-    let res = await axios.create({
-      baseURL: BASEURL,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+TOKEN
-      }
-    }).get(ENDPOINT)
-
-    console.log(res)
-    this.jsonObj = JSON.parse(res.request.response)
-    console.log(jsonObj)
+    this.jsonObj = await ApiService.sorties.getAll()
   },
   data() {
     return {

@@ -16,6 +16,12 @@ const ApiService = {
           })
       }
     },
+    sorties: {
+        async getAll() {
+            let res = await axios.get("/sorties")
+            return JSON.parse(res.data)
+        }
+    }
 }
 
 export default ApiService
