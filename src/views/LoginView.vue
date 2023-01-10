@@ -28,7 +28,7 @@
               />
             </fieldset>
             <button class="btn btn-lg btn-primary pull-xs-right">
-              Connection
+              Connexion
             </button>
           </form>
         </div>
@@ -52,7 +52,7 @@ export default {
     onSubmit(username, password) {
       this.$store
           .dispatch('login', {username, password})
-          .then(() => this.$router.push({name: "home"}))
+          .then(() => this.$router.push({name: "profile"}))
     },
   },
   computed: {
