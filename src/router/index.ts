@@ -25,7 +25,7 @@ const router = createRouter({
         {
             path: '/sortieList',
             name: 'sortieList',
-            component: () => import('../views/ListSortie.vue')
+                component: () => import('../views/ListSortie.vue')
         }
     ]
 })
