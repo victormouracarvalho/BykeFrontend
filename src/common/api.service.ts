@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
+import JwtService from "@/common/jwt.service";
 
 const ApiService = {
     init() {
@@ -9,17 +10,22 @@ const ApiService = {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     },
     auth: {
-      login(username: string, password: string) {
-           return axios.post("/login", {
-              'pseudoUtil': username,
-              'mdpUtil': password,
-          })
-      }
+        login(username: string, password: string) {
+            return axios.post("/login", {
+                'pseudoUtil': username,
+                'mdpUtil': password,
+            })
+        }
     },
     sorties: {
         async getAll() {
-            let res = await axios.get("/sorties")
-            return JSON.parse(res.data)
+            // todo replace with useStore after merge of auth3 PR
+            const res = await axios.get("/sorties", {
+                headers: {
+                    'Authorization': `Bearer ${JwtService.getToken()}`
+                }
+            })
+            return res.data
         }
     }
 }
