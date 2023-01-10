@@ -1,6 +1,6 @@
 import type { ActionContext } from "vuex";
 import ApiService from "@/common/api.service";
-import jwtService from "@/common/jwt.service";
+import JwtService from "@/common/jwt.service";
 
 type State = {
     token: string | null
@@ -15,7 +15,7 @@ type LoginPayload = {
 const Auth = {
     state(): State {
         return {
-            token: null,
+            token: JwtService.getToken(),
             error: null,
         }
     },
@@ -44,7 +44,7 @@ const Auth = {
                 commit('clearError')
                 const response = await ApiService.auth.login(username, password)
                 commit('setToken', response.data.token)
-                jwtService.saveToken(response.data.token)
+                JwtService.saveToken(response.data.token)
                 ApiService.setAuthHeader(response.data.token)
             } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
@@ -57,7 +57,7 @@ const Auth = {
         },
         async logout({commit}: ActionContext<State, any>) {
             commit('clearToken')
-            jwtService.destroyToken()
+            JwtService.destroyToken()
             ApiService.removeAuthHeader()
         },
         async register({commit}: ActionContext<State, any>, {username, password}: LoginPayload) {
@@ -65,7 +65,7 @@ const Auth = {
                 commit('clearError')
                 const response = await ApiService.auth.register(username, password)
                 commit('setToken', response.data.token)
-                jwtService.saveToken(response.data.token)
+                JwtService.saveToken(response.data.token)
                 ApiService.setAuthHeader(response.data.token)
             } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
