@@ -29,10 +29,7 @@
 </template>
 
 <script>
-import axios from "axios";
 import ApiService from "../common/api.service";
-
-
 
 export default {
   async created() {

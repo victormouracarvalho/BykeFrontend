@@ -7,20 +7,17 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeView,
-            meta:{
-             title: "Byke App"
-            }
+            component: HomeView
+        },
+        {
+            path: '/about',
+            name: 'about',
+            component: () => import('../views/AboutView.vue')
         },
         {
             path: '/login',
             name: 'login',
             component: () => import('../views/LoginView.vue')
-        },
-        {
-            path: '/map',
-            name: 'map',
-            component: () => import('../views/MapView.vue')
         },
         {
             path: '/sortieList',
@@ -29,14 +26,5 @@ const router = createRouter({
         }
     ]
 })
-
-
-router.beforeEach(
-    (to,
-     from,
-     next) => {
-        document.title = `${to.meta.title}`;
-        next();
-    });
 
 export default router
