@@ -14,8 +14,12 @@ type LoginPayload = {
 
 const Auth = {
     state(): State {
+        const token = JwtService.getToken()
+        if (token != null) {
+            ApiService.setAuthHeader(token)
+        }
         return {
-            token: JwtService.getToken(),
+            token: token,
             error: null,
         }
     },
