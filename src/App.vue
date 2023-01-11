@@ -26,6 +26,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/login" v-if="!isAuthenticated">Connexion</RouterLink>
         <RouterLink to="/profile" v-if="isAuthenticated">Profil</RouterLink>
+        <RouterLink to="/sorties" v-if="isAuthenticated">Sorties</RouterLink>
       </nav>
     </div>
   </header>

@@ -30,8 +30,8 @@ const router = createRouter({
             component: () => import('../views/ProfileView.vue')
         },
         {
-            path: '/sortieList',
-            name: 'sortieList',
+            path: '/sorties',
+            name: 'sortie-list',
                 component: () => import('../views/ListSortie.vue')
         },
     ]

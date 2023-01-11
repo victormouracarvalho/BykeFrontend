@@ -33,6 +33,10 @@ import ApiService from "../common/api.service";
 
 export default {
   async created() {
+    if (!this.$store.getters.isAuthenticated) {
+      this.$router.push({name: "login"})
+      return
+    }
     this.jsonObj = await ApiService.sorties.getAll()
   },
   data() {
