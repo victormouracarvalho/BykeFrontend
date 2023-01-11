@@ -1,5 +1,5 @@
 <template>
-  <h1>Profile</h1>
+  <h1>Profil</h1>
   <p v-if="isAuthenticated">Vous êtes connecté</p>
   <RouterLink to="#" @click="logout">Déconnexion</RouterLink>
 </template>
@@ -10,7 +10,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "ProfileView",
   mounted() {
-    if (!this.$store.getters.isAuthenticated) {
+    if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
     }
   },
