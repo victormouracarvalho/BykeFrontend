@@ -29,7 +29,7 @@ import ApiService from "../common/api.service";
 
 export default {
   async created() {
-    if (!this.$store.getters.isAuthenticated) {
+    if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
       return
     }

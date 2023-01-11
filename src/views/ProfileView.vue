@@ -10,7 +10,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "ProfileView",
   mounted() {
-    if (!this.$store.getters.isAuthenticated) {
+    if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
     }
   },
