@@ -4,6 +4,7 @@
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Départ</th>
         <th>Début</th>
@@ -12,12 +13,13 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="sortie in sorties" :key="sortie.id">
-        <td>{{sortie.dateSortie}}</td>
-        <td>{{sortie.lieuDepart}}</td>
-        <td>{{sortie.heureDepart}}</td>
-        <td>{{sortie.heureArrivee}}</td>
-        <td>{{sortie.distanceParcourue}}</td>
+      <tr v-for="excursion in excursions" :key="excursion.id">
+        <td>{{ excursion.id }}</td>
+        <td>??</td>
+        <td>{{ excursion.start }}</td>
+        <td>{{ excursion.departure }}</td>
+        <td>{{ excursion.arrival }}</td>
+        <td> TODO </td>
       </tr>
       </tbody>
     </table>
@@ -33,11 +35,11 @@ export default {
       this.$router.push({name: "login"})
       return
     }
-    this.sorties = await ApiService.sorties.getAll()
+    this.excursions = await ApiService.excursions.getAll()
   },
   data() {
     return {
-      sorties: null,
+      excursions: null,
     };
   }
 };

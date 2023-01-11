@@ -14,14 +14,14 @@ const ApiService = {
     auth: {
         login(username: string, password: string) {
             return axios.post("/login", {
-                'pseudoUtil': username,
-                'mdpUtil': password,
+                'username': username,
+                'password': password,
             })
         },
         register(username: string, password: string) {
             return axios.post("/register", {
-                'pseudoUtil': username,
-                'mdpUtil': password,
+                'username': username,
+                'password': password,
             })
         },
     },
@@ -30,8 +30,48 @@ const ApiService = {
             const res = await axios.get("/sorties")
             return res.data
         }
+    },
+    excursions: {
+        // GET /excursions
+        async getAll(): Promise<Excursion[]> {
+            const res = await axios.get("/excursions")
+            return res.data
+        },
+        // GET /excursions/{id}
+        async get(id: number): Promise<ExcursionFull> {
+            const res = await axios.get(`/excursions/${id}`)
+            return res.data
+        }
     }
 }
 
+interface Excursion {
+    id: number
+    bykeId: number
+    start: string
+    departure: string
+    arrival: string
+}
+
+interface ExcursionFull extends Excursion {
+    path: Path
+}
+
+interface Path {
+    id: number
+    creator: Creator
+    steps: Step[]
+}
+
+interface Creator {
+    id: number
+    name: string
+}
+
+interface Step {
+    location: string
+    latitude: string,
+    longitude: string,
+}
 export default ApiService
 
