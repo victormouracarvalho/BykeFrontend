@@ -4,24 +4,20 @@
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
-        <th>id</th>
-        <th>DateSortie</th>
-        <th>DistanceParcours</th>
-        <th>HeureArrivee</th>
-        <th>HeureDepart</th>
-        <th>lieuDepart</th>
-        <th>numUtil</th>
+        <th>Date</th>
+        <th>Départ</th>
+        <th>Début</th>
+        <th>Fin</th>
+        <th>Distance</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="sortie in jsonObj" :key="sortie.id">
-        <td>{{sortie.id}}</td>
+      <tr v-for="sortie in sorties" :key="sortie.id">
         <td>{{sortie.dateSortie}}</td>
-        <td>{{sortie.distanceParcourue}}</td>
-        <td>{{sortie.heureArrivee}}</td>
-        <td>{{sortie.heureDepart}}</td>
         <td>{{sortie.lieuDepart}}</td>
-        <td>{{sortie.numUtil}}</td>
+        <td>{{sortie.heureDepart}}</td>
+        <td>{{sortie.heureArrivee}}</td>
+        <td>{{sortie.distanceParcourue}}</td>
       </tr>
       </tbody>
     </table>
@@ -37,11 +33,11 @@ export default {
       this.$router.push({name: "login"})
       return
     }
-    this.jsonObj = await ApiService.sorties.getAll()
+    this.sorties = await ApiService.sorties.getAll()
   },
   data() {
     return {
-      jsonObj: null,
+      sorties: null,
     };
   }
 };
