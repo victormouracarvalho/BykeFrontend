@@ -15,33 +15,42 @@ const router = createRouter({
         {
             path: '/login',
             name: 'login',
-            component: () => import('../views/LoginView.vue')
+            component: () => import('../views/LoginView.vue'),
+            meta: {
+                title: "Connexion",
+            },
         },
         {
             path: '/register',
             name: 'register',
-            component: () => import('../views/RegisterView.vue')
+            component: () => import('../views/RegisterView.vue'),
+            meta: {
+                title: "Inscription",
+            },
         },
         {
             path: '/profile',
             name: 'profile',
-            component: () => import('../views/ProfileView.vue')
+            component: () => import('../views/ProfileView.vue'),
+            meta: {
+                title: "Profil",
+            },
         },
         {
             path: '/sorties',
             name: 'sortie-list',
-                component: () => import('../views/SortieListView.vue')
+            component: () => import('../views/SortieListView.vue'),
+            meta: {
+                title: "Sorties",
+            },
         },
     ]
 })
 
 
-router.beforeEach(
-    (to,
-     from,
-     next) => {
-        document.title = `${to.meta.title}`;
-        next();
-    });
+router.beforeEach((to, from, next) => {
+    document.title = `${to.meta.title}`;
+    next();
+});
 
 export default router
