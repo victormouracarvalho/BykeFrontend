@@ -35,11 +35,11 @@ export default {
       this.$router.push({name: "login"})
       return
     }
-    this.excursions = await ApiService.excursions.getAll()
+    this.sorties = await ApiService.sorties.getAll()
   },
   data() {
     return {
-      excursions: null,
+      sorties: null,
     };
   }
 };

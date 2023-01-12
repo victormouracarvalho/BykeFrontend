@@ -27,7 +27,7 @@ const ApiService = {
     },
     sorties: {
         async getAll() {
-            const res = await axios.get("/sorties")
+            const res = await axios.get("/excursions")
             return res.data
         }
     },
