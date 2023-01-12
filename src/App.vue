@@ -3,6 +3,17 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
+<script lang="ts">
+  import { mapGetters } from "vuex";
+
+  export default {
+    name: "App",
+    computed: {
+      ...mapGetters(['isAuthenticated'])
+    }
+  }
+</script>
+
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -12,7 +23,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/login">Connexion</RouterLink>
+        <RouterLink to="/login" v-if="isAuthenticated === false">Connexion</RouterLink>
+        <RouterLink to="/profile" v-if="isAuthenticated">Profil</RouterLink>
+        <RouterLink to="/sorties" v-if="isAuthenticated">Sorties</RouterLink>
       </nav>
     </div>
   </header>

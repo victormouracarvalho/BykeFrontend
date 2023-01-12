@@ -8,15 +8,30 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: HomeView,
-            meta:{
-             title: "Byke App"
-            }
+            meta: {
+                title: "Byke App"
+            },
         },
         {
             path: '/login',
             name: 'login',
             component: () => import('../views/LoginView.vue')
-        }
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('../views/RegisterView.vue')
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import('../views/ProfileView.vue')
+        },
+        {
+            path: '/sorties',
+            name: 'sortie-list',
+                component: () => import('../views/SortieListView.vue')
+        },
     ]
 })
 
