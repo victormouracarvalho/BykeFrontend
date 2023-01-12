@@ -13,11 +13,11 @@
       </thead>
       <tbody>
       <tr v-for="sortie in sorties" :key="sortie.id">
-        <td>{{sortie.dateSortie}}</td>
-        <td>{{sortie.lieuDepart}}</td>
-        <td>{{sortie.heureDepart}}</td>
-        <td>{{sortie.heureArrivee}}</td>
-        <td>{{sortie.distanceParcourue}}</td>
+        <td>{{}}</td>
+        <td>{{sortie.start}}</td>
+        <td>{{sortie.departure}}</td>
+        <td>{{sortie.arrival}}</td>
+        <td>{{}}</td>
       </tr>
       </tbody>
     </table>
