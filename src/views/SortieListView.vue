@@ -19,7 +19,7 @@
         <td>{{ excursion.start }}</td>
         <td>{{ excursion.departure }}</td>
         <td>{{ excursion.arrival }}</td>
-        <td> TODO </td>
+        <td> TODO</td>
       </tr>
       </tbody>
     </table>
@@ -35,7 +35,7 @@ export default {
       this.$router.push({name: "login"})
       return
     }
-    this.sorties = await ApiService.sorties.getAll()
+    this.excursions = await ApiService.excursions.getAll()
   },
   data() {
     return {
