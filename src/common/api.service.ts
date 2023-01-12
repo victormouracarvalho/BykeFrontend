@@ -14,20 +14,20 @@ const ApiService = {
     auth: {
         login(username: string, password: string) {
             return axios.post("/login", {
-                'pseudoUtil': username,
-                'mdpUtil': password,
+                'username': username,
+                'password': password,
             })
         },
         register(username: string, password: string) {
             return axios.post("/register", {
-                'pseudoUtil': username,
-                'mdpUtil': password,
+                'username': username,
+                'password': password,
             })
         },
     },
     sorties: {
         async getAll() {
-            const res = await axios.get("/sorties")
+            const res = await axios.get("/excursions")
             return res.data
         }
     }
