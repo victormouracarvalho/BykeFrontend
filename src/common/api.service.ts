@@ -41,6 +41,11 @@ const ApiService = {
         async get(id: number): Promise<ExcursionFull> {
             const res = await axios.get(`/excursions/${id}`)
             return res.data
+        },
+
+        async delete(id: number): Promise<ExcursionFull>{
+            const res = await axios.delete(`/excursions/${id}`)
+            return res.data
         }
     }
 }

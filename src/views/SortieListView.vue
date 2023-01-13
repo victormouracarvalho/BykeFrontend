@@ -10,16 +10,20 @@
         <th>Début</th>
         <th>Fin</th>
         <th>Distance</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="excursion in this.excursions" :key="excursion.id">
+      <tr v-for="excursion in excursions" :key="excursion.id">
         <td>{{ excursion.id }}</td>
         <td>??</td>
         <td>{{ excursion.start }}</td>
         <td>{{ excursion.departure }}</td>
         <td>{{ excursion.arrival }}</td>
         <td> TODO</td>
+        <td>
+          <button type="button" class="btn btn-danger mr-1" @click="Delete(excursion.id)">Delete</button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -41,6 +45,20 @@ export default {
     return {
       sorties: null,
     };
+  },
+  methods:{
+    Delete(id){
+      if(!confirm("Are you sure?")) {
+        return;
+      }
+      ApiService.excursions.delete(id)
+          .then(() => {
+            this.$router.push({name: "sortie-list"})
+          })
+          .catch((error) => {
+            this.$store.commit("setError", error.response.data.errors)
+          })
+    }
   }
 };
 </script>
