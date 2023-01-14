@@ -14,7 +14,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="excursion in this.excursions" :key="excursion.id">
+      <tr v-for="excursion in excursions" :key="excursion.id">
         <td>{{ excursion.id }}</td>
         <td>??</td>
         <td>{{ excursion.start }}</td>

@@ -6,13 +6,60 @@
         <span class="fs-4">Projet Byke</span>
       </a>
 
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-      </ul>
+      <div v-if="authenticated===false">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="#" class="nav-link active" @click='GoToView("")' aria-current="page">Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" @click='GoToView("sorties")'>List Sorties</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" @click='GoToView("profile")'>Profile</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        </ul>
+      </div>
+      <div v-if="authenticated===true">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="#" class="nav-link active" @click='GoToView("")' aria-current="page">Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" @click='GoToView("sorties")'>List Sorties</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" @click='GoToView("profile")'>Profile</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" @click='logout()'>Logout</a></li>
+        </ul>
+      </div>
+
     </header>
   </div>
 </template>
+
+
+<script>
+
+export default {
+  async created() {
+    if (this.$store.getters.isAuthenticated === false) {
+      this.$router.push({name: "login"})
+      return
+    }
+  },
+   data() {
+      return {
+        sorties: null
+      }
+    },
+  computed: {
+    authenticated() {
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    GoToView(path){
+      window.location.href = "/" + path;
+    },
+    logout() {
+      if(!confirm("Are you sure to Logout?")) {
+        return;
+      }
+      this.$store
+          .dispatch("logout")
+          .then(() => this.$router.push({ name: "home" }));
+    }
+  }
+};
+</script>
