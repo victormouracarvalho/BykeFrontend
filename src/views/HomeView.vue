@@ -7,12 +7,17 @@ export default {
     BootstrapFeatures,
     BootstrapHero,
   },
+  computed: {
+    isAuthenticated(): boolean {
+      return this.$store.getters.isAuthenticated
+    },
+  },
 }
 </script>
 
 <template>
   <main>
-    <BootstrapHero img="/assets/geojango-maps-Z8UgB80_46w-unsplash.jpg"></BootstrapHero>
+    <BootstrapHero img="/assets/geojango-maps-Z8UgB80_46w-unsplash.jpg" :authenticated="isAuthenticated"></BootstrapHero>
     <BootstrapFeatures></BootstrapFeatures>
   </main>
 </template>
