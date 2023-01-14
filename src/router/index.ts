@@ -53,7 +53,7 @@ const router = createRouter({
             },
         },
         {
-            path: '/sortiesView/:id',
+            path: '/sorties/:id',
             name: 'sortie-view',
             component: () => import('../views/SortieDisplayView.vue'),
             meta: {
