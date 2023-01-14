@@ -45,6 +45,14 @@ const router = createRouter({
             },
         },
         {
+            path: '/map',
+            name: 'map-test',
+            component: () => import('../views/MapTestView.vue'),
+            meta: {
+                title: "Leaflet",
+            },
+        },
+        {
             path: '/sortiesView/:id',
             name: 'sortie-view',
             component: () => import('../views/SortieDisplayView.vue'),
