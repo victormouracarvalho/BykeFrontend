@@ -31,9 +31,37 @@
       <h1>test</h1>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="{{$excursion.arrival}}">
+        <input type="text" id="arrival" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
+        </div>
+        <input type="text" id="bikeId" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
+        </div>
+        <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">id</span>
+        </div>
+        <input type="text" id="id" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Start</span>
+        </div>
+        <input type="text" id="start" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
       </div>
     </div>
 
@@ -48,6 +76,7 @@
 <script>
 import ApiService from "../common/api.service";
 import { mapState } from "vuex";
+// document.getElementById("test2").innerHTML = $route.params.id;
 export default {
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
@@ -57,6 +86,13 @@ export default {
     this.excursions = await ApiService.excursions.get(this.$route.params.id)
     console.log(this.$route.params.id)
     console.log(await ApiService.excursions.get(this.$route.params.id))
+    document.getElementById("arrival").value = this.excursions.arrival;
+    document.getElementById("bikeId").value = this.excursions.bykeId;
+    document.getElementById("departure").value = this.excursions.departure;
+    document.getElementById("id").value = this.excursions.id;
+    document.getElementById("start").value = this.excursions.start;
+
+
   },
   data() {
     return {
