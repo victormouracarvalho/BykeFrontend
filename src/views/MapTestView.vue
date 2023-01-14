@@ -1,32 +1,41 @@
 <template>
-  <div style="height:600px; width:800px">
-    <l-map ref="map" v-model:zoom="zoom" :center="[45.779152085757225, 4.868157419346505]">
-      <l-tile-layer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          layer-type="base"
-          name="OpenStreetMap"
-          :attribution="attribution"
-      ></l-tile-layer>
-    </l-map>
+  <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+    <LeafletMap :steps="steps" :initial-zoom="10" :path="path"/>
   </div>
 </template>
 
 <script>
-import 'leaflet'
-import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import LeafletMap from "@/components/LeafletMap.vue";
 
 export default {
   components: {
-    LMap,
-    LTileLayer,
+    LeafletMap,
   },
   data() {
     return {
-      zoom: 15,
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    };
-  },
+      steps: [
+        {
+          id: 1,
+          name: "RONTALON",
+          latitude: 45.66052627560000,
+          longitude: 4.63221406937000,
+        },
+        {
+          id: 2,
+          name: "SAINT ANDRE LA COTE",
+          latitude: 45.63100000000000,
+          longitude: 4.60100000000000,
+        },
+        {
+          id: 3,
+          name: "SAINT MARTIN EN HAUT",
+          latitude: 45.66000000000000,
+          longitude: 4.55900000000000,
+        },
+      ],
+      path: [1, 2, 3],
+    }
+  }
 };
 </script>
 
