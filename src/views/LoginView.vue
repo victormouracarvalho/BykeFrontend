@@ -56,7 +56,8 @@ export default {
     onSubmit(username, password) {
       this.$store
           .dispatch('login', {username, password})
-          .then(() => this.$router.push({name: "profile"}))
+          .then(() => this.$router.push({name: "profile"})
+          )
     },
   },
   computed: {
