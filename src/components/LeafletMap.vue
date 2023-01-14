@@ -23,7 +23,7 @@
 <script>
 import 'leaflet'
 import "leaflet/dist/leaflet.css";
-import { LMap, LMarker, LPolyline, LPopup, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import {LMap, LMarker, LPolyline, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 import L from "leaflet";
 
 export default {
@@ -84,7 +84,6 @@ export default {
     icons() {
       const icons = {}
       for (const id in this.dict) {
-        console.log(id, this.start)
         if (+id === this.start) {
           icons[id] = L.divIcon({
             className: 'start-icon',

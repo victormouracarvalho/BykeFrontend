@@ -81,6 +81,7 @@ interface Step {
     location: string
     latitude: string,
     longitude: string,
+    id: number
 }
 export default ApiService
 
