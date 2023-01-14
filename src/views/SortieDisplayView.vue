@@ -38,6 +38,9 @@
         <input type="text" id="start" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
       </div>
     </div>
+    <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+      <LeafletMap :steps="[]" :path="path" :initial-zoom="10" />
+    </div>
     <div class="container center-align">
       <button type="button" class="btn btn-success mr-2" @click="Update(id)">Update</button>
 <!--      <button type="button" class="btn btn-danger mr-2" @click="Delete(excursion.id)">Delete</button>-->
@@ -53,6 +56,7 @@
 <script>
 import ApiService from "../common/api.service";
 import { mapState } from "vuex";
+import LeafletMap from "../components/LeafletMap.vue";
 // document.getElementById("test2").innerHTML = $route.params.id;
 export default {
   async created() {
@@ -109,6 +113,9 @@ export default {
             this.$store.commit("setError", error.response.data.errors)
           })
     },
-  }
+  },
+  components: {
+    LeafletMap,
+  },
 };
 </script>
