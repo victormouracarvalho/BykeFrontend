@@ -30,8 +30,59 @@ const ApiService = {
             const res = await axios.get("/excursions")
             return res.data
         }
+    },
+    excursions: {
+        // GET /excursions
+        async getAll(): Promise<Excursion[]> {
+            const res = await axios.get("/excursions")
+            return res.data
+        },
+        // GET /excursions/{id}
+        async get(id: number): Promise<ExcursionFull> {
+            const res = await axios.get(`/excursions/${id}`)
+            return res.data
+        },
+        // DELETE /excursions/{id}
+        async delete(id: number): Promise<ExcursionFull>{
+            const res = await axios.delete(`/excursions/${id}`)
+            return res.data
+        },
+        // PUT /excursions
+        async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
+            const res = await axios.put(`/excursions/${id}`, excursion)
+            return res.data
+        }
     }
 }
 
+interface Excursion {
+    id: number
+    bykeId: number
+    start: string
+    departure: string
+    arrival: string
+}
+
+interface ExcursionFull extends Excursion {
+    path: Path
+}
+
+interface Path {
+    id: number
+    creator: Creator
+    steps: Step[]
+}
+
+interface Creator {
+    id: number
+    name: string
+}
+
+interface Step {
+    location: string
+    latitude: string,
+    longitude: string,
+    id: number
+}
 export default ApiService
 

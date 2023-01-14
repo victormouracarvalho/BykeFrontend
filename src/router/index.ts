@@ -52,6 +52,14 @@ const router = createRouter({
                 title: "Leaflet",
             },
         },
+        {
+            path: '/sorties/:id',
+            name: 'sortie-view',
+            component: () => import('../views/SortieDisplayView.vue'),
+            meta: {
+                title: "Sortie - Modify",
+            },
+        }
     ]
 })
 
