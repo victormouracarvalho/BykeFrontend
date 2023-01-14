@@ -46,6 +46,10 @@ const ApiService = {
         async delete(id: number): Promise<ExcursionFull>{
             const res = await axios.delete(`/excursions/${id}`)
             return res.data
+        },
+        async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
+            const res = await axios.put(`/excursions/${id}`, excursion)
+            return res.data
         }
     }
 }

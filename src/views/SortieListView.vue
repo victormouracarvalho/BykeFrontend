@@ -22,6 +22,9 @@
         <td>{{ excursion.arrival }}</td>
         <td> TODO</td>
         <td>
+          <button type="button" class="btn btn-success mr-2" id="goToView" @click="GoToView(excursion.id)">Update</button>
+        </td>
+        <td>
           <button type="button" class="btn btn-danger mr-1" @click="Delete(excursion.id)">Delete</button>
         </td>
       </tr>
@@ -40,6 +43,10 @@ export default {
       return
     }
     this.excursions = await ApiService.excursions.getAll()
+
+    // document.getElementById("goToView").addEventListener("click", function () {
+    //   window.location.href = "/sortieView/" + this.excursion.id;
+    // })
   },
   data() {
     return {
@@ -58,6 +65,9 @@ export default {
           .catch((error) => {
             this.$store.commit("setError", error.response.data.errors)
           })
+    },
+    GoToView(id){
+      window.location.href = "/sortiesView/" + id;
     }
   }
 };

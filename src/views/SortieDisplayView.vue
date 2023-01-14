@@ -1,34 +1,8 @@
 <template>
 <!--  Title for the page with table-->
   <div>
-    <h2>Sortie Display and Modify: {{$route.params.id}}</h2>
-    <table class="table table-striped table-bordered">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Départ</th>
-        <th>Début</th>
-        <th>Fin</th>
-        <th>Distance</th>
-        <th></th>
-      </tr>
-      <tr v-for="excursion in excursions" :key="excursion.id">
-        <th>{{ excursion.id }}</th>
-        <th>??</th>
-        <th>{{ excursion.start }}</th>
-        <th>{{ excursion.departure }}</th>
-        <th>{{ excursion.arrival }}</th>
-        <th> TODO</th>
-
-      </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-
     <div class="container">
-      <h1>test</h1>
+      <h1>Modification des valeurs: {{$route.params.id}}</h1>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
@@ -64,8 +38,11 @@
         <input type="text" id="start" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
       </div>
     </div>
+    <div class="container center-align">
+      <button type="button" class="btn btn-success mr-2" @click="Update(id)">Update</button>
+<!--      <button type="button" class="btn btn-danger mr-2" @click="Delete(excursion.id)">Delete</button>-->
+    </div>
 
-    <button type="button" class="btn btn-success mr-1">Update</button>
 
 
   </div>
@@ -92,7 +69,6 @@ export default {
     document.getElementById("id").value = this.excursions.id;
     document.getElementById("start").value = this.excursions.start;
 
-
   },
   data() {
     return {
@@ -100,20 +76,39 @@ export default {
     };
   },
   methods:{
-    // Delete(id){
-    //   if(!confirm("Are you sure?")) {
-    //     return;
-    //   }
-    //   ApiService.excursions.delete(id)
-    //       .then(() => {
-    //         alert("L'item est viens supprimé");
-    //       })
-    //       .catch((error) => {
-    //         this.$store.commit("setError", error.response.data.errors)
-    //       })
-    // }
+    Delete(id){
+      if(!confirm("Are you sure?")) {
+        return;
+      }
+      ApiService.excursions.delete(id)
+          .then(() => {
+            alert("L'item est viens supprimé");
+          })
+          .catch((error) => {
+            this.$store.commit("setError", error.response.data.errors)
+          })
+    },
+    Update(id){
+      if(!confirm("Voulez-vous sur de modifier?")) {
+        return;
+      }
+
+      this.excursions.arrival = document.getElementById("arrival").value;
+      this.excursions.bikeId = document.getElementById("bikeId").value;
+      this.excursions.departure = document.getElementById("departure").value;
+      this.excursions.id = document.getElementById("id").value;
+      this.excursions.start = document.getElementById("start").value;
 
 
+      console.log(this.excursions)
+      ApiService.excursions.update(id, this.excursions)
+          .then(() => {
+            alert("L'item est viens modifier");
+          })
+          .catch((error) => {
+            this.$store.commit("setError", error.response.data.errors)
+          })
+    },
   }
 };
 </script>
