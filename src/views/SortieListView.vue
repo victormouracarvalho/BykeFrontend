@@ -30,6 +30,9 @@
       </tr>
       </tbody>
     </table>
+    <div>
+      <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">Create Sortie</button>
+    </div>
   </div>
 </template>
 
