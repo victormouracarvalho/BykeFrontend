@@ -13,7 +13,7 @@ export interface ExcursionFull {
     departure: string
     arrival: string | null
 
-    path: Path
+    path: FullPath
 }
 
 export interface ExcursionPayload {
@@ -22,10 +22,17 @@ export interface ExcursionPayload {
     departure: string
 }
 
-export interface Path {
+export interface SimplePath {
+    id: number
+    name: string
+    creatorName: string
+}
+
+export interface FullPath {
     id: number
     name: string
     creator: Creator
+
     steps: Step[]
 }
 
