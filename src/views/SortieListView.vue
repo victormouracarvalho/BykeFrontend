@@ -1,50 +1,47 @@
 <template>
   <div class="container">
-    <h3 class="p-3 text-center">List des Sorties</h3>
+    <h3 class="p-3 text-center">Mes sorties</h3>
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Départ</th>
+        <th>Trajet</th>
         <th>Début</th>
         <th>Fin</th>
         <th>Distance</th>
-        <th></th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="excursion in excursions" :key="excursion.id">
-        <td>{{ excursion.id }}</td>
-        <td>??</td>
-        <td>{{ excursion.start }}</td>
-        <td>{{ excursion.departure }}</td>
-        <td>{{ excursion.arrival }}</td>
+        <td>{{ excursion.pathName }}</td>
+        <td>{{ departurePretty[excursion.id] }}</td>
+        <td>{{ arrivalPretty[excursion.id] }}</td>
         <td> TODO</td>
         <td>
-          <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">Update</button>
+          <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">{{ excursion.arrival != null ? 'Voir' : 'Modifier'}}</button>
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Delete</button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Supprimer</button>
         </td>
       </tr>
       </tbody>
     </table>
     <div>
-      <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">Create Sortie</button>
+      <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">
+        Nouvelle sortie
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import ApiService from "../common/api.service";
-import type { Excursion } from "@/common/types";
+import type { ExcursionSimple } from "@/common/types";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
     return {
-      excursions: [] as Excursion[],
+      excursions: [] as ExcursionSimple[],
     };
   },
   async created() {
@@ -54,16 +51,36 @@ export default defineComponent({
     }
     this.excursions = await ApiService.excursions.getAll()
   },
-  methods:{
-    async deleteItem(id: number){
-      if(!confirm("Are you sure?")) {
+  methods: {
+    async deleteItem(id: number) {
+      if (!confirm("Are you sure?")) {
         return;
       }
       await ApiService.excursions.delete(id)
       alert("L'item est viens supprimé");
     },
-    goToView(id: number){
+    goToView(id: number) {
       this.$router.push({name: "sortie-view", params: {id: id}})
+    }
+  },
+  computed: {
+    departurePretty() {
+      let dict = {} as { [key: number]: string }
+      for (let excursion of this.excursions) {
+        dict[excursion.id] = new Date(excursion.departure).toLocaleString()
+      }
+      return dict
+    },
+    arrivalPretty() {
+      let dict = {} as { [key: number]: string }
+      for (let excursion of this.excursions) {
+        if (excursion.arrival == null) {
+          dict[excursion.id] = "En cours"
+        } else {
+          dict[excursion.id] = new Date(excursion.arrival).toLocaleString()
+        }
+      }
+      return dict
     }
   }
 });

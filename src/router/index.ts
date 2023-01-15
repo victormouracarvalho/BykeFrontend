@@ -57,11 +57,11 @@ const router = createRouter({
             name: 'sortie-view',
             component: () => import('../views/SortieDisplayView.vue'),
             meta: {
-                title: "Sortie - Modify",
+                title: "Sortie - View",
             },
         },
         {
-            path: '/sortiesCreate',
+            path: '/sorties/new',
             name: 'sortie-create',
             component: () => import('../views/SortieCreateView.vue'),
             meta: {

@@ -2,26 +2,22 @@
   <div>
     <div class="container">
       <h1>Nouvelle sortie</h1>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
-        </div>
-        <input type="text" id="arrival" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.arrival" >
-      </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
         </div>
         <input type="text" id="bikeId" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.bykeId">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Date de départ</span>
         </div>
         <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
       </div>
+
+      <em>Sélecteur de trajet à rajouter</em>
 
       <div >
         <button type="button" class="btn btn-primary mr-2" @click="create">Add</button>
@@ -34,6 +30,7 @@
 <script lang="ts">
 import ApiService from "../common/api.service";
 import { defineComponent } from "vue";
+import type { ExcursionPayload } from "@/common/types";
 
 export default defineComponent({
   async created() {
@@ -44,12 +41,10 @@ export default defineComponent({
   data() {
     return {
       excursion: {
-        "id": 0,
         "bykeId": 0,
+        "pathId": 0,
         "departure": "",
-        "arrival": "",
-        "start": "",
-      }
+      } as ExcursionPayload,
     };
   },
   methods:{
