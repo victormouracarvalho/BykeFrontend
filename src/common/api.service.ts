@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
+import type { Profile } from "@/common/types";
 
 const ApiService = {
     init() {
@@ -60,6 +61,12 @@ const ApiService = {
     bikes: {
         async getAll(id: number): Promise<Byke[]> {
             const res = await axios.get(`/bikes/${id}`)
+            return res.data
+        }
+    },
+    profile: {
+        async get(): Promise<Profile> {
+            const res = await axios.get(`/profile`)
             return res.data
         }
     }

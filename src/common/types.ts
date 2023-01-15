@@ -42,3 +42,8 @@ export interface Bike {
     type: string
     wheels: string
 }
+
+export interface Profile {
+    id: number
+    username: string
+}
