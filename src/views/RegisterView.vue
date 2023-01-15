@@ -40,7 +40,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "BykeRegisterView",
-  mounted() {
+  created() {
     this.$store.commit("clearError")
     if (this.$store.getters.isAuthenticated) {
       this.$router.push({name: 'profile'})

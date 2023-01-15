@@ -12,7 +12,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ProfileView",
-  mounted() {
+  created() {
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
     }
