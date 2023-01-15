@@ -67,7 +67,7 @@ const router = createRouter({
             meta: {
                 title: "Sortie - Create",
             }
-        }
+        },
     ]
 })
 

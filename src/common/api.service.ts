@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
+import type { Profile } from "@/common/types";
 
 const ApiService = {
     init() {
@@ -56,6 +57,18 @@ const ApiService = {
             const res = await axios.post(`/excursions`, excursion)
             return res.data
         }
+    },
+    bikes: {
+        async getAll(id: number): Promise<Byke[]> {
+            const res = await axios.get(`/bikes/${id}`)
+            return res.data
+        }
+    },
+    profile: {
+        async get(): Promise<Profile> {
+            const res = await axios.get(`/profile`)
+            return res.data
+        }
     }
 }
 
@@ -87,6 +100,19 @@ interface Step {
     latitude: string,
     longitude: string,
     id: number
+}
+interface Byke {
+    id: number
+    owner: {
+        id: number
+        name: string
+    }
+    name: string
+    purchaseDate: string
+    brand: string
+    cassette: string
+    type: string
+    wheels: string
 }
 export default ApiService
 
