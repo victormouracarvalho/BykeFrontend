@@ -21,7 +21,7 @@
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'home'}" @click="goToView('home')" style="cursor: pointer">Home</a></li>
           <li class="nav-item"><a class="nav-link" style="cursor: pointer">About</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'profile'}" @click="goToView('profile')" style="cursor: pointer">Profil</a></li>
-          <li class="nav-item"><a class="nav-link" :class="{active: page === 'sortie-list'}" @click="goToView('sortie-list')" style="cursor: pointer">Sorties</a></li>
+          <li class="nav-item"><a class="nav-link" :class="{active: page?.startsWith('sortie')}" @click="goToView('sortie-list')" style="cursor: pointer">Sorties</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'logout'}" @click='logout' style="cursor: pointer">Logout</a></li>
         </ul>
       </div>
@@ -38,8 +38,11 @@ export default defineComponent({
     authenticated(): boolean {
       return this.$store.getters.isAuthenticated
     },
-    page() {
-      return this.$route.name
+    page(): string {
+      if (this.$route.name == null) {
+        return ""
+      }
+      return this.$route.name.toString()
     }
   },
   methods: {
