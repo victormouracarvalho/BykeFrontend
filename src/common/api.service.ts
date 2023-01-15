@@ -50,6 +50,10 @@ const ApiService = {
         async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
             const res = await axios.put(`/excursions/${id}`, excursion)
             return res.data
+        },
+        async create( excursion: Excursion): Promise<Excursion>{
+            const res = await axios.post(`/excursions`, excursion)
+            return res.data
         }
     }
 }

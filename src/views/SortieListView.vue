@@ -30,6 +30,9 @@
       </tr>
       </tbody>
     </table>
+    <div>
+      <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="GoToCreate()">Create Sortie</button>
+    </div>
   </div>
 </template>
 
@@ -68,6 +71,9 @@ export default {
     },
     GoToView(id){
       window.location.href = "/sortiesView/" + id;
+    },
+    GoToCreate(){
+      window.location.href = "/sortiesCreate";
     }
   }
 };

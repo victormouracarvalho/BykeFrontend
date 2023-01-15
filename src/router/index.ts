@@ -59,6 +59,14 @@ const router = createRouter({
             meta: {
                 title: "Sortie - Modify",
             },
+        },
+        {
+            path: '/sortiesCreate',
+            name: 'sortie-create',
+            component: () => import('../views/SortieCreateView.vue'),
+            meta: {
+                title: "Sortie - Create",
+            }
         }
     ]
 })
