@@ -22,10 +22,10 @@
         <td>{{ excursion.arrival }}</td>
         <td> TODO</td>
         <td>
-          <button type="button" class="btn btn-success mr-2" id="goToView" @click="GoToView(excursion.id)">Update</button>
+          <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">Update</button>
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="Delete(excursion.id)">Delete</button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -33,42 +33,35 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ApiService from "../common/api.service";
+import type { Excursion } from "@/common/types";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
+  data() {
+    return {
+      excursions: [] as Excursion[],
+    };
+  },
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
       return
     }
     this.excursions = await ApiService.excursions.getAll()
-
-    // document.getElementById("goToView").addEventListener("click", function () {
-    //   window.location.href = "/sortieView/" + this.excursion.id;
-    // })
-  },
-  data() {
-    return {
-      sorties: null,
-    };
   },
   methods:{
-    Delete(id){
+    async deleteItem(id: number){
       if(!confirm("Are you sure?")) {
         return;
       }
-      ApiService.excursions.delete(id)
-          .then(() => {
-            alert("L'item est viens supprimé");
-          })
-          .catch((error) => {
-            this.$store.commit("setError", error.response.data.errors)
-          })
+      await ApiService.excursions.delete(id)
+      alert("L'item est viens supprimé");
     },
-    GoToView(id){
-      window.location.href = "/sortiesView/" + id;
+    goToView(id: number){
+      this.$router.push({name: "sortie-view", params: {id: id}})
     }
   }
-};
+});
 </script>

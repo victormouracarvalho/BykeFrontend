@@ -1,10 +1,12 @@
 <!--From https://getbootstrap.com/docs/5.2/examples/-->
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "BootstrapFooter",
   props: ['name', 'year'],
-}
+})
 </script>
 
 <template>

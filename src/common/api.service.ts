@@ -42,11 +42,12 @@ const ApiService = {
             const res = await axios.get(`/excursions/${id}`)
             return res.data
         },
-
+        // DELETE /excursions/{id}
         async delete(id: number): Promise<ExcursionFull>{
             const res = await axios.delete(`/excursions/${id}`)
             return res.data
         },
+        // PUT /excursions
         async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
             const res = await axios.put(`/excursions/${id}`, excursion)
             return res.data
@@ -81,6 +82,7 @@ interface Step {
     location: string
     latitude: string,
     longitude: string,
+    id: number
 }
 export default ApiService
 

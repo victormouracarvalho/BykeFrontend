@@ -7,8 +7,9 @@ import { RouterView } from 'vue-router'
   import bootstrapIcons from 'bootstrap-icons/bootstrap-icons.svg?raw'
   import BootstrapFooter from "@/components/BootstrapFooter.vue";
   import BootstrapNavbar from "@/components/BootstrapNavbar.vue";
+  import { defineComponent } from "vue";
 
-  export default {
+  export default defineComponent({
     name: "App",
     computed: {
       ...mapGetters(['isAuthenticated'])
@@ -22,7 +23,7 @@ import { RouterView } from 'vue-router'
       BootstrapNavbar,
       BootstrapFooter,
     }
-  }
+  })
 </script>
 
 <template>

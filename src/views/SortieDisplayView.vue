@@ -1,121 +1,116 @@
 <template>
-<!--  Title for the page with table-->
   <div>
     <div class="container">
-      <h1>Modification des valeurs: {{$route.params.id}}</h1>
+      <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
+        </div>
+        <input type="text" id="departure" class="form-control" v-model="excursion.departure">
+      </div>
+
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
         </div>
-        <input type="text" id="arrival" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
+        <input type="text" id="arrival" class="form-control" v-model="excursion.arrival">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
         </div>
-        <input type="text" id="bikeId" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input type="text" id="bikeId" class="form-control" v-model="excursion.bykeId">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
         </div>
-        <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
-      </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">id</span>
-        </div>
-        <input type="text" id="id" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
-      </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Start</span>
-        </div>
-        <input type="text" id="start" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" >
+        <input type="text" id="start" class="form-control" v-model="excursion.path.id">
       </div>
     </div>
-    <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
-      <LeafletMap :steps="[]" :path="path" :initial-zoom="10" />
-    </div>
+
     <div class="container center-align">
-      <button type="button" class="btn btn-success mr-2" @click="Update(id)">Update</button>
-<!--      <button type="button" class="btn btn-danger mr-2" @click="Delete(excursion.id)">Delete</button>-->
+      <button type="button" class="btn btn-success mx-2" @click="updateItem">Modifier</button>
+      <button type="button" class="btn btn-danger mx-2" @click="deleteItem">Supprimer</button>
     </div>
 
-
-
+    <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+      <LeafletMap :steps="steps" :path="path" :initial-zoom="10"/>
+    </div>
   </div>
-
-
 </template>
 
-<script>
+<script lang="ts">
 import ApiService from "../common/api.service";
-import { mapState } from "vuex";
 import LeafletMap from "../components/LeafletMap.vue";
-// document.getElementById("test2").innerHTML = $route.params.id;
-export default {
+import { defineComponent } from "vue";
+import type { ExcursionFull, Step } from "@/common/types";
+
+export default defineComponent({
+  data() {
+    return {
+      id: +this.$route.params.id,
+      excursion: {
+        id: 0,
+        bykeId: 0,
+        start: "",
+        departure: "",
+        arrival: "",
+        path: {
+          id: 0,
+          creator: {
+            id: 0,
+            name: "",
+          },
+          steps: [],
+        },
+      } as ExcursionFull,
+      steps: [] as Step[],
+      path: [] as number[],
+    };
+  },
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
       return
     }
-    this.excursions = await ApiService.excursions.get(this.$route.params.id)
-    console.log(this.$route.params.id)
-    console.log(await ApiService.excursions.get(this.$route.params.id))
-    document.getElementById("arrival").value = this.excursions.arrival;
-    document.getElementById("bikeId").value = this.excursions.bykeId;
-    document.getElementById("departure").value = this.excursions.departure;
-    document.getElementById("id").value = this.excursions.id;
-    document.getElementById("start").value = this.excursions.start;
 
+    this.excursion = await ApiService.excursions.get(this.id)
+    this.steps = this.excursion.path.steps.map(step => ({
+      ...step,
+      name: step.location,
+    }))
+    this.path = this.steps.map(step => step.id)
   },
-  data() {
-    return {
-      sorties: null,
-    };
-  },
-  methods:{
-    Delete(id){
-      if(!confirm("Are you sure?")) {
-        return;
+  computed: {
+    departureDay() {
+      if (this.excursion.departure === "") {
+        return ""
       }
-      ApiService.excursions.delete(id)
-          .then(() => {
-            alert("L'item est viens supprimé");
-          })
-          .catch((error) => {
-            this.$store.commit("setError", error.response.data.errors)
-          })
+      return new Date(this.excursion.departure).toLocaleDateString()
     },
-    Update(id){
-      if(!confirm("Voulez-vous sur de modifier?")) {
+  },
+  methods: {
+    async updateItem() {
+      if (!confirm("Modifier l'item ?")) {
         return;
       }
-
-      this.excursions.arrival = document.getElementById("arrival").value;
-      this.excursions.bikeId = document.getElementById("bikeId").value;
-      this.excursions.departure = document.getElementById("departure").value;
-      this.excursions.id = document.getElementById("id").value;
-      this.excursions.start = document.getElementById("start").value;
-
-
-      console.log(this.excursions)
-      ApiService.excursions.update(id, this.excursions)
-          .then(() => {
-            alert("L'item est viens modifier");
-          })
-          .catch((error) => {
-            this.$store.commit("setError", error.response.data.errors)
-          })
+      await ApiService.excursions.update(this.id, this.excursion)
+      alert("Item modifié");
+    },
+    async deleteItem(){
+      if(!confirm("Supprimer l'item ?")){
+        return;
+      }
+      await ApiService.excursions.delete(this.id)
+      alert("Item supprimé");
     },
   },
   components: {
     LeafletMap,
   },
-};
+});
 </script>

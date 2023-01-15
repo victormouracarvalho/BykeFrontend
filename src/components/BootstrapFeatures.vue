@@ -1,9 +1,11 @@
 <!--From https://getbootstrap.com/docs/5.2/examples/-->
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "BootstrapFeatures",
-}
+})
 </script>
 
 <template>

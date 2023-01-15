@@ -7,9 +7,9 @@
         :attribution="attribution"
     ></l-tile-layer>
 
-    <template v-for="step in this.steps" :key="step.id">
-      <l-marker :lat-lng="[step.latitude, step.longitude]" :icon="this.icons[step.id]">
-        <l-popup v-if="step.name"> {{ step.name }}</l-popup>
+    <template v-for="step in steps" :key="step.id">
+      <l-marker :lat-lng="[+step.latitude, +step.longitude]" :icon="icons[step.id]">
+        <l-popup> {{ step.location }}</l-popup>
       </l-marker>
     </template>
 
@@ -20,23 +20,26 @@
   </l-map>
 </template>
 
-<script>
+<script lang="ts">
 import 'leaflet'
 import "leaflet/dist/leaflet.css";
 import { LMap, LMarker, LPolyline, LPopup, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import L from "leaflet";
+import type { PropType } from "vue";
+import { defineComponent } from "vue";
+import type { Step } from "@/common/types";
 
-export default {
+export default defineComponent({
   name: "LeafletMap",
   props: {
     steps: {
-      type: Array,
+      type: Array as PropType<Step[]>,
       default() {
         return []
       },
     },
     path: {
-      type: Array,
+      type: Array as PropType<number[]>,
       default() {
         return []
       },
@@ -70,7 +73,7 @@ export default {
       return this.steps.reduce((acc, step) => {
         acc[step.id] = step;
         return acc;
-      }, {});
+      }, {} as { [key: number]: Step });
     },
     polyline() {
       return this.path.map((id) => [this.dict[id].latitude, this.dict[id].longitude]);
@@ -82,15 +85,13 @@ export default {
       return this.path.length > 1 ? this.path[this.path.length - 1] : null;
     },
     icons() {
-      const icons = {}
+      const icons = {} as { [key: number]: L.DivIcon };
       for (const id in this.dict) {
-        console.log(id, this.start)
         if (+id === this.start) {
           icons[id] = L.divIcon({
             className: 'start-icon',
             html: '<svg class="bi" width="24" height="24"><use xlink:href="#1-circle-fill"></use></svg>',
             iconSize: [24, 24],
-            background: 'white',
           })
         } else if (+id === this.end) {
           icons[id] = L.divIcon({
@@ -111,7 +112,7 @@ export default {
       return icons
     },
   }
-};
+});
 </script>
 
 <style></style>

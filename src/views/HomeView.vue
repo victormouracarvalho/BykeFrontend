@@ -1,7 +1,8 @@
 <script lang="ts">
 import BootstrapHero from "@/components/BootstrapHero.vue";
 import BootstrapFeatures from "@/components/BootstrapFeatures.vue";
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "HomeView",
   components: {
     BootstrapFeatures,
@@ -12,7 +13,7 @@ export default {
       return this.$store.getters.isAuthenticated
     },
   },
-}
+})
 </script>
 
 <template>
