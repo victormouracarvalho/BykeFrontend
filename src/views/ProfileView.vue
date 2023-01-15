@@ -6,24 +6,20 @@
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Utilisateur</th>
-        <th>Date d'achat</th>
         <th>Marque</th>
         <th>Cassette</th>
         <th>type</th>
         <th>Wheels</th>
+        <th>Date d'achat</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="bike in bikes" :key="bike.id">
-        <td>{{ bike.id }}</td>
-        <td>{{ bike.owner.name }}</td>
-        <td>{{ bike.purchaseDate }}</td>
         <td>{{ bike.brand }}</td>
         <td>{{ bike.cassette }}</td>
         <td>{{ bike.type }}</td>
         <td>{{ bike.wheels }}</td>
+        <td>{{ bike.purchaseDate }}</td>
       </tr>
       </tbody>
     </table>
