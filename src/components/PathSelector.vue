@@ -3,7 +3,13 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
     </div>
-    <button class="form-control text-start" data-bs-toggle="modal" data-bs-target="#pathSelector" @click="reset" :disabled="disabled"> {{ modelValue.name }}
+    <button class="form-control text-start" data-bs-toggle="modal" data-bs-target="#pathSelector" :disabled="disabled">
+      <template v-if="modelValue != null">
+        {{ modelValue.name}}
+      </template>
+      <template v-else>
+        Choisir un trajet
+      </template>
     </button>
   </div>
 
@@ -19,7 +25,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-default">Trajet actuel</span>
             </div>
-            <input type="text" class="form-control" :value="modelValue.name" disabled>
+            <input type="text" class="form-control" :value="modelValue != null ? modelValue.name : 'Aucun trajet sélectionné'" disabled>
           </div>
           <div class="container">
             <ul class="nav nav-pills nav-fill">
@@ -59,7 +65,7 @@ export default defineComponent({
   name: "PathSelector",
   props: {
     modelValue: {
-      type: Object as PropType<FullPath>,
+      type: Object as PropType<FullPath | null>,
       required: true,
     },
     disabled: {
