@@ -1,16 +1,7 @@
 import type { ActionContext } from "vuex";
 import ApiService from "@/common/api.service";
 import JwtService from "@/common/jwt.service";
-
-type State = {
-    token: string | null
-    error: string | null
-}
-
-type LoginPayload = {
-    username: string
-    password: string
-}
+import type { LoginPayload, State } from "@/store/types";
 
 const Auth = {
     state(): State {

@@ -8,7 +8,7 @@
               <RouterLink to="login">Vous avez déjà un compte ?</RouterLink>
             </p>
           <p v-if="error" class="error-messages">{{ error }}</p>
-          <form @submit.prevent="onSubmit(username, password)">
+          <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
                   class="form-control form-control-lg"
@@ -35,10 +35,10 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex"
+<script lang="ts">
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "BykeRegisterView",
   mounted() {
     this.$store.commit("clearError")
@@ -53,16 +53,19 @@ export default {
     }
   },
   methods: {
-    onSubmit(username, password) {
+    onSubmit() {
       this.$store
-          .dispatch('register', {username, password})
+          .dispatch('register', {
+            username: this.username,
+            password: this.password,
+          })
           .then(() => this.$router.push({name: "profile"}))
     },
   },
   computed: {
-    ...mapState({
-      error: state => state.auth.error,
-    }),
+    error() {
+      return this.$store.state.error
+    }
   },
-};
+});
 </script>
