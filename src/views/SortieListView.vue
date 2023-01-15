@@ -17,18 +17,17 @@
         <td>{{ arrivalPretty[excursion.id] }}</td>
         <td> TODO</td>
         <td>
-          <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">Update
-          </button>
+          <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">{{ excursion.arrival != null ? 'Voir' : 'Modifier'}}</button>
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Delete</button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Supprimer</button>
         </td>
       </tr>
       </tbody>
     </table>
     <div>
       <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">
-        Create Sortie
+        Nouvelle sortie
       </button>
     </div>
   </div>

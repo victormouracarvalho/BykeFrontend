@@ -5,35 +5,35 @@
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
+        </div>
+        <input type="text" id="start" class="form-control" v-model="excursion.path.name" :disabled="ended">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
         </div>
-        <input type="text" id="departure" class="form-control" v-model="excursion.departure">
+        <input type="text" id="departure" class="form-control" v-model="excursion.departure" :disabled="ended">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
         </div>
-        <input type="text" id="arrival" class="form-control" v-model="excursion.arrival">
+        <input type="text" id="arrival" class="form-control" v-model="arrivalOrMessage" disabled>
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
         </div>
-        <input type="text" id="bikeId" class="form-control" v-model="excursion.bykeId">
-      </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
-        </div>
-        <input type="text" id="start" class="form-control" v-model="excursion.path.id">
+        <input type="text" id="bikeId" class="form-control" v-model="excursion.bykeId" :disabled="ended">
       </div>
     </div>
 
     <div class="container center-align">
-      <button type="button" class="btn btn-success mx-2" @click="updateItem">Modifier</button>
+      <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier</button>
       <button type="button" class="btn btn-danger mx-2" @click="deleteItem">Supprimer</button>
     </div>
 
@@ -61,6 +61,7 @@ export default defineComponent({
         arrival: "",
         path: {
           id: 0,
+          name: "",
           creator: {
             id: 0,
             name: "",
@@ -92,17 +93,31 @@ export default defineComponent({
       }
       return new Date(this.excursion.departure).toLocaleDateString()
     },
+    ended() {
+      return this.excursion.arrival != null
+    },
+    arrivalOrMessage() {
+      if (this.excursion.arrival == null) {
+        return "En cours"
+      } else {
+        return this.excursion.arrival
+      }
+    }
   },
   methods: {
     async updateItem() {
       if (!confirm("Modifier l'item ?")) {
         return;
       }
-      await ApiService.excursions.update(this.id, this.excursion)
+      await ApiService.excursions.update(this.id, {
+        bykeId: this.excursion.bykeId,
+        pathId: this.excursion.path.id,
+        departure: this.excursion.departure,
+      })
       alert("Item modifié");
     },
-    async deleteItem(){
-      if(!confirm("Supprimer l'item ?")){
+    async deleteItem() {
+      if (!confirm("Supprimer l'item ?")) {
         return;
       }
       await ApiService.excursions.delete(this.id)
