@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      sorties: null,
+      excursions: [],
     };
   },
   methods:{
