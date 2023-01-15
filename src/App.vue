@@ -6,6 +6,7 @@ import { RouterView } from 'vue-router'
   import { mapGetters } from "vuex";
   import bootstrapIcons from 'bootstrap-icons/bootstrap-icons.svg?raw'
   import BootstrapFooter from "@/components/BootstrapFooter.vue";
+  import BootstrapNavbar from "@/components/BootstrapNavbar.vue";
   import { defineComponent } from "vue";
 
   export default defineComponent({
@@ -19,12 +20,14 @@ import { RouterView } from 'vue-router'
       }
     },
     components: {
+      BootstrapNavbar,
       BootstrapFooter,
     }
   })
 </script>
 
 <template>
+  <BootstrapNavbar />
   <RouterView />
   <BootstrapFooter name="Projet Byke" year="2023"></BootstrapFooter>
   <!-- inject bootstrap icons svg file -->
