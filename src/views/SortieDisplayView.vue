@@ -3,12 +3,7 @@
     <div class="container">
       <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
-        </div>
-        <input type="text" id="start" class="form-control" v-model="excursion.path.name" :disabled="ended">
-      </div>
+      <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -32,7 +27,6 @@
       </div>
     </div>
 
-    <PathSelector v-model="excursion.path"></PathSelector>
 
     <div class="container center-align">
       <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier</button>

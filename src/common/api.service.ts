@@ -34,7 +34,7 @@ const ApiService = {
     },
     excursions: {
         // GET /excursions
-        async getAll(): Promise<Excursion[]> {
+        async getAll(): Promise<ExcursionSimple[]> {
             const res = await axios.get("/excursions")
             return res.data
         },

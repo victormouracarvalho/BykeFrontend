@@ -3,7 +3,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
     </div>
-    <button class="form-control text-start" data-bs-toggle="modal" data-bs-target="#pathSelector" @click="reset"> {{ modelValue.name }}
+    <button class="form-control text-start" data-bs-toggle="modal" data-bs-target="#pathSelector" @click="reset" :disabled="disabled"> {{ modelValue.name }}
     </button>
   </div>
 
@@ -43,6 +43,9 @@ export default defineComponent({
       type: Object as PropType<Path>,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+    }
   },
   emits: ['update:modelValue'],
   data() {
