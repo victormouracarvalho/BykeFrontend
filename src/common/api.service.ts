@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
+import type { Excursion, ExcursionFull } from "@/common/types";
 
 const ApiService = {
     init() {
@@ -43,46 +44,16 @@ const ApiService = {
             return res.data
         },
         // DELETE /excursions/{id}
-        async delete(id: number): Promise<ExcursionFull>{
+        async delete(id: number): Promise<ExcursionFull> {
             const res = await axios.delete(`/excursions/${id}`)
             return res.data
         },
         // PUT /excursions
-        async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
+        async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull> {
             const res = await axios.put(`/excursions/${id}`, excursion)
             return res.data
         }
     }
-}
-
-interface Excursion {
-    id: number
-    bykeId: number
-    start: string
-    departure: string
-    arrival: string
-}
-
-interface ExcursionFull extends Excursion {
-    path: Path
-}
-
-interface Path {
-    id: number
-    creator: Creator
-    steps: Step[]
-}
-
-interface Creator {
-    id: number
-    name: string
-}
-
-interface Step {
-    location: string
-    latitude: string,
-    longitude: string,
-    id: number
 }
 export default ApiService
 

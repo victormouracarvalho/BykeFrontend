@@ -28,7 +28,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
         </div>
-        <input type="text" id="start" class="form-control" v-model="excursion.path.id">
+        <input type="text" id="start" class="form-control" v-model="excursion.path.name">
       </div>
     </div>
 
@@ -61,6 +61,7 @@ export default defineComponent({
         arrival: "",
         path: {
           id: 0,
+          name: "",
           creator: {
             id: 0,
             name: "",

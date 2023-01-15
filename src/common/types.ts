@@ -12,6 +12,7 @@ export interface ExcursionFull extends Excursion {
 
 export interface Path {
     id: number
+    name: string
     creator: Creator
     steps: Step[]
 }
