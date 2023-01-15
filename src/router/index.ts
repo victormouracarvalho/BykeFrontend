@@ -67,6 +67,14 @@ const router = createRouter({
             meta: {
                 title: "Sortie - Create",
             }
+        },
+        {
+            path: '/bykesHist/:id',
+            name: 'bykesAffichage',
+            component: () => import('../views/BykesHistView.vue'),
+            meta: {
+                title: "Bykes - Affichage",
+            }
         }
     ]
 })
