@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
+import type { ExcursionFull, ExcursionPayload, ExcursionSimple } from "@/common/types";
 
 const ApiService = {
     init() {
@@ -33,7 +34,7 @@ const ApiService = {
     },
     excursions: {
         // GET /excursions
-        async getAll(): Promise<Excursion[]> {
+        async getAll(): Promise<ExcursionSimple[]> {
             const res = await axios.get("/excursions")
             return res.data
         },
@@ -47,46 +48,18 @@ const ApiService = {
             const res = await axios.delete(`/excursions/${id}`)
             return res.data
         },
-        // PUT /excursions
-        async update(id: number, excursion: ExcursionFull): Promise<ExcursionFull>{
+        // PUT /excursions/{id}
+        async update(id: number, excursion: ExcursionPayload): Promise<ExcursionSimple>{
             const res = await axios.put(`/excursions/${id}`, excursion)
             return res.data
         },
-        async create( excursion: Excursion): Promise<Excursion>{
+        // POST /excursions
+        async create( excursion: ExcursionPayload): Promise<ExcursionSimple>{
             const res = await axios.post(`/excursions`, excursion)
             return res.data
         }
     }
 }
 
-interface Excursion {
-    id: number
-    bykeId: number
-    start: string
-    departure: string
-    arrival: string
-}
-
-interface ExcursionFull extends Excursion {
-    path: Path
-}
-
-interface Path {
-    id: number
-    creator: Creator
-    steps: Step[]
-}
-
-interface Creator {
-    id: number
-    name: string
-}
-
-interface Step {
-    location: string
-    latitude: string,
-    longitude: string,
-    id: number
-}
 export default ApiService
 

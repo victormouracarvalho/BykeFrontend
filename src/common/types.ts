@@ -1,13 +1,25 @@
-export interface Excursion {
+export interface ExcursionSimple {
     id: number
     bykeId: number
-    start: string
     departure: string
-    arrival: string
+    arrival: string | null
+
+    pathName: string
 }
 
-export interface ExcursionFull extends Excursion {
+export interface ExcursionFull {
+    id: number
+    bykeId: number
+    departure: string
+    arrival: string | null
+
     path: Path
+}
+
+export interface ExcursionPayload {
+    bykeId: number
+    pathId: number
+    departure: string
 }
 
 export interface Path {
