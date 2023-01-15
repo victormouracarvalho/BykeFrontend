@@ -38,8 +38,11 @@ export default defineComponent({
     authenticated(): boolean {
       return this.$store.getters.isAuthenticated
     },
-    page() {
-      return this.$route.name
+    page(): string {
+      if (this.$route.name == null) {
+        return ""
+      }
+      return this.$route.name.toString()
     }
   },
   methods: {
