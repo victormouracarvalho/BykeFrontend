@@ -25,7 +25,7 @@
           <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">Update</button>
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="delete(excursion.id)">Delete</button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -33,14 +33,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ApiService from "../common/api.service";
+import type { Excursion } from "@/common/types";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   data() {
     return {
-      excursions: [],
-    }
+      excursions: [] as Excursion[],
+    };
   },
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
@@ -50,20 +52,16 @@ export default {
     this.excursions = await ApiService.excursions.getAll()
   },
   methods:{
-    async delete(id){
+    async deleteItem(id: number){
       if(!confirm("Are you sure?")) {
         return;
       }
-      try {
-        await ApiService.excursions.delete(id)
-        alert("L'item est viens supprimé");
-      } catch(error) {
-        this.$store.commit("setError", error.response.data.errors)
-      }
+      await ApiService.excursions.delete(id)
+      alert("L'item est viens supprimé");
     },
-    goToView(id){
+    goToView(id: number){
       this.$router.push({name: "sortie-view", params: {id: id}})
     }
   }
-};
+});
 </script>

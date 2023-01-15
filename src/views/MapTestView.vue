@@ -4,10 +4,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LeafletMap from "@/components/LeafletMap.vue";
+import { defineComponent } from "vue";
+import type { Step } from "@/common/types";
 
-export default {
+export default defineComponent({
   components: {
     LeafletMap,
   },
@@ -16,27 +18,27 @@ export default {
       steps: [
         {
           id: 1,
-          name: "RONTALON",
-          latitude: 45.66052627560000,
-          longitude: 4.63221406937000,
+          location: "RONTALON",
+          latitude: "45.66052627560000",
+          longitude: "4.63221406937000",
         },
         {
           id: 2,
-          name: "SAINT ANDRE LA COTE",
-          latitude: 45.63100000000000,
-          longitude: 4.60100000000000,
+          location: "SAINT ANDRE LA COTE",
+          latitude: "45.63100000000000",
+          longitude: "4.60100000000000",
         },
         {
           id: 3,
-          name: "SAINT MARTIN EN HAUT",
-          latitude: 45.66000000000000,
-          longitude: 4.55900000000000,
+          location: "SAINT MARTIN EN HAUT",
+          latitude: "45.66000000000000",
+          longitude: "4.55900000000000",
         },
-      ],
-      path: [1, 2, 3],
+      ] as Step[],
+      path: [1, 2, 3] as number[],
     }
   }
-};
+});
 </script>
 
 <style></style>

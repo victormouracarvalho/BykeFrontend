@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <h1 class="display-4 fw-bold my-3">Sortie du {{ this.departureDay }}</h1>
-
-
+      <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -45,24 +43,33 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ApiService from "../common/api.service";
 import LeafletMap from "../components/LeafletMap.vue";
+import { defineComponent } from "vue";
+import type { ExcursionFull, Step } from "@/common/types";
 
-export default {
+export default defineComponent({
   data() {
     return {
-      id: this.$route.params.id,
+      id: +this.$route.params.id,
       excursion: {
+        id: 0,
+        bykeId: 0,
+        start: "",
         departure: "",
         arrival: "",
-        start: "",
         path: {
-          id: "",
+          id: 0,
+          creator: {
+            id: 0,
+            name: "",
+          },
+          steps: [],
         },
-      },
-      steps: [],
-      path: [],
+      } as ExcursionFull,
+      steps: [] as Step[],
+      path: [] as number[],
     };
   },
   async created() {
@@ -80,7 +87,7 @@ export default {
   },
   computed: {
     departureDay() {
-      if (this.excursion == null) {
+      if (this.excursion.departure === "") {
         return ""
       }
       return new Date(this.excursion.departure).toLocaleDateString()
@@ -91,27 +98,19 @@ export default {
       if (!confirm("Modifier l'item ?")) {
         return;
       }
-      try {
-        await ApiService.excursions.update(this.id, this.excursion)
-        alert("Item modifié");
-      } catch(error) {
-        this.$store.commit("setError", error.response.data.errors)
-      }
+      await ApiService.excursions.update(this.id, this.excursion)
+      alert("Item modifié");
     },
     async deleteItem(){
       if(!confirm("Supprimer l'item ?")){
         return;
       }
-      try {
-        await ApiService.excursions.delete(this.id)
-        alert("Item supprimé");
-      } catch(error) {
-        this.$store.commit("setError", error.response.data.errors)
-      }
+      await ApiService.excursions.delete(this.id)
+      alert("Item supprimé");
     },
   },
   components: {
     LeafletMap,
   },
-};
+});
 </script>

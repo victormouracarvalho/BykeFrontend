@@ -6,8 +6,9 @@ import { RouterView } from 'vue-router'
   import { mapGetters } from "vuex";
   import bootstrapIcons from 'bootstrap-icons/bootstrap-icons.svg?raw'
   import BootstrapFooter from "@/components/BootstrapFooter.vue";
+  import { defineComponent } from "vue";
 
-  export default {
+  export default defineComponent({
     name: "App",
     computed: {
       ...mapGetters(['isAuthenticated'])
@@ -20,7 +21,7 @@ import { RouterView } from 'vue-router'
     components: {
       BootstrapFooter,
     }
-  }
+  })
 </script>
 
 <template>

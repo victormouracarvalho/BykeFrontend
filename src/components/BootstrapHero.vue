@@ -1,15 +1,17 @@
 <!--From https://getbootstrap.com/docs/5.2/examples/-->
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "BootstrapHero",
   props: ['img', 'authenticated'],
   methods: {
-    go(name) {
+    go(name: string) {
       this.$router.push({name});
     }
   },
-}
+})
 </script>
 
 <template>
