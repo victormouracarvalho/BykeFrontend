@@ -6,7 +6,8 @@ import store from './store'
 
 import ApiService from "@/common/api.service";
 
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 ApiService.init()
 

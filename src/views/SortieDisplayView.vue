@@ -7,33 +7,28 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
         </div>
-        <input type="text" id="departure" class="form-control" v-model="excursion.departure">
+        <input type="text" class="form-control" v-model="excursion.departure">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
         </div>
-        <input type="text" id="arrival" class="form-control" v-model="excursion.arrival">
+        <input type="text" class="form-control" v-model="excursion.arrival">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
         </div>
-        <input type="text" id="bikeId" class="form-control" v-model="excursion.bykeId">
+        <input type="text" class="form-control" v-model="excursion.bykeId">
       </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
-        </div>
-        <input type="text" id="start" class="form-control" v-model="excursion.path.name">
-      </div>
+      <PathSelector v-model="excursion.path"></PathSelector>
     </div>
 
     <div class="container center-align">
-      <button type="button" class="btn btn-success mx-2" @click="updateItem">Modifier</button>
+      <button type="button" class="btn btn-success mx-2" @click="updateItem">Valider</button>
       <button type="button" class="btn btn-danger mx-2" @click="deleteItem">Supprimer</button>
     </div>
 
@@ -48,6 +43,7 @@ import ApiService from "../common/api.service";
 import LeafletMap from "../components/LeafletMap.vue";
 import { defineComponent } from "vue";
 import type { ExcursionFull, Step } from "@/common/types";
+import PathSelector from "@/components/PathSelector.vue";
 
 export default defineComponent({
   data() {
@@ -112,6 +108,7 @@ export default defineComponent({
   },
   components: {
     LeafletMap,
+    PathSelector,
   },
 });
 </script>
