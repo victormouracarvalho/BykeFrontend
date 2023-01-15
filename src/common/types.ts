@@ -40,3 +40,23 @@ export interface Step {
     longitude: string,
     id: number
 }
+
+
+export interface Bike {
+    id: number
+    owner: {
+        id: number
+        name: string
+    }
+    name: string
+    purchaseDate: string
+    brand: string
+    cassette: string
+    type: string
+    wheels: string
+}
+
+export interface Profile {
+    id: number
+    username: string
+}

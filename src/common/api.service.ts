@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
-import type { ExcursionFull, ExcursionPayload, ExcursionSimple } from "@/common/types";
+import type { ExcursionFull, ExcursionPayload, ExcursionSimple, Profile, Bike } from "@/common/types";
 
 const ApiService = {
     init() {
@@ -56,6 +56,18 @@ const ApiService = {
         // POST /excursions
         async create( excursion: ExcursionPayload): Promise<ExcursionSimple>{
             const res = await axios.post(`/excursions`, excursion)
+            return res.data
+        }
+    },
+    bikes: {
+        async getAll(id: number): Promise<Bike[]> {
+            const res = await axios.get(`/bikes/${id}`)
+            return res.data
+        }
+    },
+    profile: {
+        async get(): Promise<Profile> {
+            const res = await axios.get(`/profile`)
             return res.data
         }
     }
