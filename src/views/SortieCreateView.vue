@@ -1,5 +1,4 @@
 <template>
-  <!--  Title for the page with table-->
   <div>
     <div class="container">
       <h1>Nouvelle sortie</h1>
@@ -27,16 +26,16 @@
       <div >
         <button type="button" class="btn btn-primary mr-2" @click="create">Add</button>
       </div>
-
     </div>
   </div>
-
 </template>
 
 
-<script>
+<script lang="ts">
 import ApiService from "../common/api.service";
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
@@ -44,7 +43,6 @@ export default {
   },
   data() {
     return {
-      sorties: null,
       excursion: {
         "id": 0,
         "bykeId": 0,
@@ -60,5 +58,5 @@ export default {
       this.$router.push({name: "sortie-list"})
     }
   },
-};
+});
 </script>
