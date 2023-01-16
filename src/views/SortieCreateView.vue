@@ -1,23 +1,25 @@
 <template>
-  <div>
-    <div class="container">
-      <h1>Nouvelle sortie</h1>
+  <div class="container">
+    <h1>Nouvelle sortie</h1>
 
-      <BikeSelector v-model="excursion.bykeId" />
+    <BikeSelector v-model="excursion.bykeId" />
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Date de départ</span>
-        </div>
-        <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Date de départ</span>
       </div>
-
-      <PathSelector v-model="path"></PathSelector>
-
-      <div >
-        <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter</button>
-      </div>
+      <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
     </div>
+
+    <PathSelector v-model="path"></PathSelector>
+
+    <div >
+      <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter</button>
+    </div>
+  </div>
+
+  <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+    <LeafletMap :steps="path?.steps ?? []" :path="mapPath" :initial-zoom="10"/>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ import { defineComponent } from "vue";
 import type { ExcursionPayload, FullPath } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
 import BikeSelector from "@/components/BikeSelector.vue";
+import LeafletMap from "@/components/LeafletMap.vue";
 
 export default defineComponent({
   async created() {
@@ -56,6 +59,14 @@ export default defineComponent({
       this.$router.push({name: "sortie-list"})
     }
   },
-  components: {BikeSelector, PathSelector},
+  computed: {
+    mapPath() {
+      if (this.path === null) {
+        return [];
+      }
+      return this.path.steps.map(step => step.id)
+    },
+  },
+  components: {LeafletMap, BikeSelector, PathSelector},
 });
 </script>

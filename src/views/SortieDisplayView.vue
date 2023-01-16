@@ -1,36 +1,33 @@
 <template>
-  <div>
-    <div class="container">
-      <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
+  <div class="container">
+    <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
 
-      <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
+    <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Départ</span>
-        </div>
-        <input type="text" class="form-control" v-model="excursion.departure" :disabled="ended">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Départ</span>
       </div>
+      <input type="text" class="form-control" v-model="excursion.departure" :disabled="ended">
+    </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Arrivée</span>
-        </div>
-        <input type="text" class="form-control" v-model="arrivalOrMessage" disabled>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Arrivée</span>
       </div>
-
-      <BikeSelector v-model="excursion.bykeId" :disabled="ended"></BikeSelector>
+      <input type="text" class="form-control" v-model="arrivalOrMessage" disabled>
     </div>
 
+    <BikeSelector v-model="excursion.bykeId" :disabled="ended"></BikeSelector>
+  </div>
 
-    <div class="container center-align">
-      <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier</button>
-      <button type="button" class="btn btn-danger mx-2" @click="deleteItem">Supprimer</button>
-    </div>
+  <div class="container center-align">
+    <button type="button" class="btn btn-success" @click="updateItem" v-if="ended === false">Modifier</button>
+    <button type="button" class="btn btn-danger mx-3" @click="deleteItem">Supprimer</button>
+  </div>
 
-    <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
-      <LeafletMap :steps="steps" :path="path" :initial-zoom="10"/>
-    </div>
+  <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+    <LeafletMap :steps="excursion.path.steps" :path="mapPath" :initial-zoom="10"/>
   </div>
 </template>
 
@@ -38,7 +35,7 @@
 import ApiService from "../common/api.service";
 import LeafletMap from "../components/LeafletMap.vue";
 import { defineComponent } from "vue";
-import type { ExcursionFull, Step } from "@/common/types";
+import type { ExcursionFull } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
 import BikeSelector from "@/components/BikeSelector.vue";
 
@@ -62,8 +59,6 @@ export default defineComponent({
           steps: [],
         },
       } as ExcursionFull,
-      steps: [] as Step[],
-      path: [] as number[],
     };
   },
   async created() {
@@ -71,13 +66,7 @@ export default defineComponent({
       this.$router.push({name: "login"})
       return
     }
-
     this.excursion = await ApiService.excursions.get(this.id)
-    this.steps = this.excursion.path.steps.map(step => ({
-      ...step,
-      name: step.location,
-    }))
-    this.path = this.steps.map(step => step.id)
   },
   computed: {
     departureDay() {
@@ -95,26 +84,26 @@ export default defineComponent({
       } else {
         return this.excursion.arrival
       }
-    }
+    },
+    mapPath() {
+      return this.excursion.path.steps.map(step => step.id)
+    },
   },
   methods: {
     async updateItem() {
-      if (!confirm("Modifier l'item ?")) {
-        return;
-      }
       await ApiService.excursions.update(this.id, {
         bykeId: this.excursion.bykeId,
         pathId: this.excursion.path.id,
         departure: this.excursion.departure,
       })
-      alert("Item modifié");
+      this.$router.push({name: "sortie-list"})
     },
     async deleteItem() {
       if (!confirm("Supprimer l'item ?")) {
         return;
       }
       await ApiService.excursions.delete(this.id)
-      alert("Item supprimé");
+      this.$router.push({name: "sortie-list"})
     },
   },
   components: {
