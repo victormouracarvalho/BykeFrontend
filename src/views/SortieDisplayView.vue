@@ -29,7 +29,7 @@
 
 
     <div class="container center-align">
-      <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier</button>
+      <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier<svg class="bi mx-0" width="16" height="16"><use xlink:href="#arrow-clockwise"></use></svg></button>
       <button type="button" class="btn btn-danger mx-2" @click="deleteItem">Supprimer</button>
     </div>
 

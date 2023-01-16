@@ -18,9 +18,10 @@
         <td> TODO</td>
         <td>
           <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">{{ excursion.arrival != null ? 'Voir' : 'Modifier'}}</button>
+
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)">Supprimer</button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#trash3"></use></svg></button>
         </td>
       </tr>
       </tbody>
@@ -28,6 +29,8 @@
     <div>
       <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">
         Nouvelle sortie
+        <svg class="bi mx-0" width="16" height="16"><use xlink:href="#plus-square"></use></svg>
+
       </button>
     </div>
   </div>
