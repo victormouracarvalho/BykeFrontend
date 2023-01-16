@@ -23,7 +23,7 @@
           <li class="nav-item"><a class="nav-link" style="cursor: pointer">About</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'profile'}" @click="goToView('profile')" style="cursor: pointer">Profil</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page?.startsWith('sortie')}" @click="goToView('sortie-list')" style="cursor: pointer">Sorties</a></li>
-          <li class="nav-item"><a class="nav-link" :class="{active: page === 'logout'}" @click='logout' style="cursor: pointer">Logout<svg class="bi mx-2" width="12" height="16"><use xlink:href="#box-arrow-right" fill="#227bfd"></use></svg></a></li>
+          <li class="nav-item"><a class="nav-link" :class="{active: page === 'logout'}" @click='logout' style="cursor: pointer">Logout<svg class="bi mx-2 mb-1" width="14" height="16"><use xlink:href="#box-arrow-right" fill="#227bfd"></use></svg></a></li>
         </ul>
       </div>
     </header>
