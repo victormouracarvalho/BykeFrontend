@@ -89,7 +89,7 @@ export default defineComponent({
       this.pathList = []
       switch (this.currentTab) {
         case 1:
-          this.pathList = await ApiService.paths.getMine()
+          this.pathList = await ApiService.paths.getUserPath(this.$store.state.auth.userId || 0)
           break;
         case 2:
           this.pathList = await ApiService.paths.getAll()
@@ -98,7 +98,7 @@ export default defineComponent({
     },
   },
   async created() {
-    this.pathList = await ApiService.paths.getMine()
+    this.pathList = await ApiService.paths.getUserPath(this.$store.state.auth.userId || 0)
   },
 })
 

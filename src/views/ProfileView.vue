@@ -3,34 +3,32 @@
     <h1>Profil</h1>
 
     <h3 class="p-3 text-center">Mes vélos</h3>
-    <table class="table table-striped table-bordered">
-      <thead>
-      <tr>
-        <th>Marque</th>
-        <th>Roues</th>
-        <th>Cassette</th>
-        <th>Date d'achat</th>
-        <th>Type</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="bike in bikes" :key="bike.id">
-        <td>{{ bike.brand }}</td>
-        <td>{{ bike.wheels }}</td>
-        <td>{{ bike.cassette }}</td>
-        <td>{{ bike.purchaseDate.toLocaleDateString() }}</td>
-        <td>{{ bike.type }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <template v-if="user != null">
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Marque</th>
+          <th>Roues</th>
+          <th>Cassette</th>
+          <th>Date d'achat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="bike in user.purchases" :key="bike.id">
+          <td>{{ bike.brand }}</td>
+          <td>{{ bike.wheels }}</td>
+          <td>{{ bike.cassette }}</td>
+          <td>{{ bike.purchaseDate.toLocaleDateString() }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </template>
   </div>
-
 </template>
 
 <script lang="ts">
-import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
-import type { Bike, Profile } from "@/common/types";
+import type { User } from "@/common/types";
 import ApiService from "@/common/api.service";
 
 export default defineComponent({
@@ -39,14 +37,12 @@ export default defineComponent({
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
     }
-    this.profile = await ApiService.profile.get()
-    this.bikes = await ApiService.bikes.getAll(this.profile.id)
+    this.user = await ApiService.auth.user()
   },
   data() {
     return {
-      profile: null as Profile | null,
-      bikes: [] as Bike[],
-    };
+      user: null as User | null
+    }
   },
   methods: {
     logout() {
@@ -54,9 +50,6 @@ export default defineComponent({
           .dispatch("logout")
           .then(() => this.$router.push({name: "home"}));
     },
-  },
-  computed: {
-    ...mapGetters(['isAuthenticated']),
   },
 });
 </script>

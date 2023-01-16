@@ -59,12 +59,12 @@ export default defineComponent({
             username: this.username,
             password: this.password,
           })
-          .then(() => this.$router.push({name: "profile"}))
+          .then(() => this.$router.push({name: "login"}))
     },
   },
   computed: {
     error() {
-      return this.$store.state.error
+      return this.$store.state.auth.error
     }
   },
 });

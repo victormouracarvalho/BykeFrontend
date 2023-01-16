@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Nouvelle sortie</h1>
 
-    <BikeSelector v-model="excursion.bykeId" />
+    <BikeSelector v-model="excursion.bikeId" />
 
     <DatetimeInput name="Départ" v-model="excursion.departure"></DatetimeInput>
 
@@ -37,9 +37,10 @@ export default defineComponent({
   data() {
     return {
       excursion: {
-        "bykeId": 0,
-        "pathId": 0,
-        "departure": new Date(),
+        userId: this.$store.state.auth.userId,
+        bikeId: 0,
+        pathId: 0,
+        departure: new Date(),
       } as ExcursionPayload,
       path: null as FullPath | null,
     };

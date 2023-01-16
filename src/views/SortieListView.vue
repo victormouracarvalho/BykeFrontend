@@ -18,7 +18,6 @@
         <td> TODO</td>
         <td>
           <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">{{ excursion.arrival != null ? 'Voir' : 'Modifier'}}</button>
-
         </td>
         <td>
           <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#trash3" fill="white"></use></svg></button>
@@ -47,11 +46,11 @@ export default defineComponent({
     };
   },
   async created() {
-    if (this.$store.getters.isAuthenticated === false) {
+    if (this.$store.state.auth.userId == null) {
       this.$router.push({name: "login"})
       return
     }
-    this.excursions = await ApiService.excursions.getAll()
+    this.excursions = await ApiService.excursions.getAll(this.$store.state.auth.userId)
   },
   methods: {
     async deleteItem(id: number) {

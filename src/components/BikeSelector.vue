@@ -40,8 +40,8 @@ export default defineComponent({
     },
   },
   async created() {
-    let profile = await ApiService.profile.get()
-    this.bikeList = await ApiService.bikes.getAll(profile.id)
+    let user = await ApiService.auth.user()
+    this.bikeList = user.purchases
   },
 })
 </script>

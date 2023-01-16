@@ -1,129 +1,150 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
-import type {
-  Bike,
-  ExcursionFull,
-  ExcursionPayload,
-  ExcursionSimple,
-  FullPath,
-  Profile,
-  SimplePath
-} from "@/common/types";
+import type { ExcursionFull, ExcursionPayload, ExcursionSimple, FullPath, SimplePath, User } from "@/common/types";
 
 const ApiService = {
-  init() {
-    axios.defaults.baseURL = API_URL
-  },
-  setAuthHeader(token: string) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
-  },
-  removeAuthHeader() {
-    axios.defaults.headers.common["Authorization"] = ""
-  },
-  auth: {
-    login(username: string, password: string) {
-      return axios.post("/login", {
-        'username': username,
-        'password': password,
-      })
+    init() {
+        axios.defaults.baseURL = API_URL
     },
-    register(username: string, password: string) {
-      return axios.post("/register", {
-        'username': username,
-        'password': password,
-      })
+    setAuthHeader(token: string) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     },
-  },
-  sorties: {
-    async getAll() {
-      const res = await axios.get("/excursions")
-      return res.data
+    removeAuthHeader() {
+        axios.defaults.headers.common["Authorization"] = ""
+    },
+    auth: {
+        // POST /login
+        async login(username: string, password: string): Promise<{ token: string }> {
+            const res = await axios.post("/login", {
+                'username': username,
+                'password': password,
+            })
+            return res.data
+        },
+        // POST /login/register
+        async register(username: string, password: string) {
+            return axios.post("/login/register", {
+                'username': username,
+                'password': password,
+            })
+        },
+        // GET /login/user
+        async user(): Promise<User> {
+            const res = await axios.get("/login/user")
+            res.data.purchases = res.data.purchases.map((bikeFromApi: any) => ({
+                id: bikeFromApi.id.bikeId,
+                purchaseDate: dateFromBackend(bikeFromApi.id.purchaseDate),
+                brand: bikeFromApi.bike.brand,
+                cassette: bikeFromApi.bike.cassette,
+                wheels: bikeFromApi.bike.wheels,
+            }))
+            return res.data
+        }
+    },
+    excursions: {
+        // GET /excursions/user/{userId}
+        async getAll(userId: number): Promise<ExcursionSimple[]> {
+            const res = await axios.get("/excursions/user/" + userId)
+            return res.data.map((excursionFromApi: any) => ({
+                id: excursionFromApi.id2,
+                bikeId: excursionFromApi.bike.id,
+                departure: dateFromBackend(excursionFromApi.id.departure),
+                arrival: dateFromBackend(excursionFromApi.arrival),
+                pathName: excursionFromApi.path.name,
+            }))
+        },
+        // GET /excursions/{id}
+        async get(id: number): Promise<ExcursionFull> {
+            const res = await axios.get(`/excursions/${id}`)
+            return {
+                id: res.data.id2,
+                bikeId: res.data.bike.id,
+                departure: dateFromBackendNotNull(res.data.id.departure),
+                arrival: dateFromBackend(res.data.arrival),
+                path: await ApiService.paths.getFullPath(res.data.path.id),
+            }
+        },
+        // DELETE /excursions/{id}
+        async delete(id: number) {
+            await axios.delete(`/excursions/${id}`)
+        },
+        // PUT /excursions/{id}
+        async update(id: number, payload: ExcursionPayload) {
+            await axios.put(`/excursions/${id}`, {
+                bikeId: payload.bikeId,
+                pathId: payload.pathId,
+                departure: dateToBackend(payload.departure),
+            })
+        },
+        // POST /excursions
+        async create(payload: ExcursionPayload): Promise<number> {
+            const res = await axios.post(`/excursions`, {
+                userId: payload.userId,
+                bikeId: payload.bikeId,
+                pathId: payload.pathId,
+                departure: dateToBackend(payload.departure),
+            })
+            return res.data.id
+        }
+    },
+    paths: {
+        // GET /paths
+        async getUserPath(userId: number): Promise<SimplePath[]> {
+            const res = await axios.get(`/paths`)
+            return res.data.filter((pathFromApi: any) => {
+                return pathFromApi.creator.id === userId
+            }).map((pathFromApi: any) => ({
+                id: pathFromApi.id,
+                name: pathFromApi.name,
+                creatorName: pathFromApi.creator.username,
+            }))
+        },
+        // GET /paths/mostPopular
+        async getAll(): Promise<SimplePath[]> {
+            const res = await axios.get(`/paths/mostPopular`)
+            return res.data.map((pathFromApi: any) => ({
+                id: pathFromApi.id,
+                name: pathFromApi.name,
+                creatorName: pathFromApi.creator.username,
+            }))
+        },
+        // GET /paths/{pathId}
+        async getFullPath(pathId: number): Promise<FullPath> {
+            const res = await axios.get(`/paths/${pathId}`)
+            return {
+                id: res.data.id,
+                name: res.data.name,
+                creator: {
+                    id: res.data.creator.id,
+                    name: res.data.creator.username,
+                },
+                steps: res.data.pathsteps.map((step: any) => ({
+                    id: step.step.id,
+                    location: step.step.location,
+                    latitude: step.step.latitude,
+                    longitude: step.step.longitude,
+                })),
+            }
+        }
     }
-  },
-  excursions: {
-    // GET /excursions
-    async getAll(): Promise<ExcursionSimple[]> {
-      const res = await axios.get("/excursions")
-      return res.data.map(dateFromBackend("departure")).map(dateFromBackend("arrival"))
-    },
-    // GET /excursions/{id}
-    async get(id: number): Promise<ExcursionFull> {
-      const res = await axios.get(`/excursions/${id}`)
-      return dateFromBackend("departure")(dateFromBackend("arrival")(res.data))
-    },
-    // DELETE /excursions/{id}
-    async delete(id: number): Promise<number> {
-      const res = await axios.delete(`/excursions/${id}`)
-      return res.data
-    },
-    // PUT /excursions/{id}
-    async update(id: number, excursion: ExcursionPayload): Promise<ExcursionSimple> {
-      const payload = dateToBackend("departure")(excursion)
-      const res = await axios.put(`/excursions/${id}`, payload)
-      return dateFromBackend("departure")(dateFromBackend("arrival")(res.data))
-    },
-    // POST /excursions
-    async create(excursion: ExcursionPayload): Promise<ExcursionSimple> {
-      const payload = dateToBackend("departure")(excursion)
-      const res = await axios.post(`/excursions`, payload)
-      return dateFromBackend("departure")(dateFromBackend("arrival")(res.data))
-    }
-  },
-  bikes: {
-    // GET /bikes/{userId}
-    async getAll(id: number): Promise<Bike[]> {
-      const res = await axios.get(`/bikes/${id}`)
-      return res.data.map(dateFromBackend("purchaseDate"))
-    }
-  },
-  profile: {
-    // GET /profile
-    async get(): Promise<Profile> {
-      const res = await axios.get(`/profile`)
-      return res.data
-    }
-  },
-  paths: {
-    // GET /paths/mine
-    async getMine(): Promise<SimplePath[]> {
-      const res = await axios.get(`/paths/mine`)
-      return res.data
-    },
-    // GET /paths/all
-    async getAll(): Promise<SimplePath[]> {
-      const res = await axios.get(`/paths/all`)
-      return res.data
-    },
-    // GET /paths/{pathId}
-    async getFullPath(pathId: number): Promise<FullPath> {
-      const res = await axios.get(`/paths/${pathId}`)
-      return res.data
-    }
-  }
 }
 
-function dateFromBackend(field: string) {
-  return function(data: any): any {
-    if (data[field] == null) {
-      return data
+function dateFromBackend(date: string): Date | null {
+    if (date == "" || date == null) {
+        return null
     }
-    return {
-      ...data,
-      [field]: new Date(data[field]),
-    }
-  }
+    return new Date(date)
 }
 
-function dateToBackend(field: string) {
-  return function(data: any): any {
-    if (data[field] == null) {
-      return data
+function dateFromBackendNotNull(date: string): Date {
+    if (date == "" || date == null) {
+        throw Error("Date is null")
     }
-    return {
-      ...data,
-      [field]: data[field].toISOString().replace('T', ' ').split('.')[0],
-    }
-  }
+    return new Date(date)
+}
+
+function dateToBackend(date: Date): string {
+    return date.toISOString().replace('T', ' ').split('.')[0]
 }
 
 export default ApiService

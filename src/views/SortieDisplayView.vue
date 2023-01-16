@@ -5,7 +5,7 @@
     <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
     <DatetimeInput name="Départ" v-model="excursion.departure" :disabled="ended" />
     <DatetimeInput name="Arrivée" v-model="excursion.arrival" disabled nullMessage="En cours" />
-    <BikeSelector v-model="excursion.bykeId" :disabled="ended"></BikeSelector>
+    <BikeSelector v-model="excursion.bikeId" :disabled="ended"></BikeSelector>
   </div>
 
   <div class="container center-align">
@@ -33,7 +33,7 @@ export default defineComponent({
       id: +this.$route.params.id,
       excursion: {
         id: 0,
-        bykeId: 0,
+        bikeId: 0,
         start: "",
         departure: new Date(),
         arrival: new Date(),
@@ -70,7 +70,8 @@ export default defineComponent({
   methods: {
     async updateItem() {
       await ApiService.excursions.update(this.id, {
-        bykeId: this.excursion.bykeId,
+        userId: 0,
+        bikeId: this.excursion.bikeId,
         pathId: this.excursion.path.id,
         departure: this.excursion.departure,
       })

@@ -1,6 +1,6 @@
 export interface ExcursionSimple {
     id: number
-    bykeId: number
+    bikeId: number
     departure: Date
     arrival: Date | null
 
@@ -9,7 +9,7 @@ export interface ExcursionSimple {
 
 export interface ExcursionFull {
     id: number
-    bykeId: number
+    bikeId: number
     departure: Date
     arrival: Date | null
 
@@ -17,7 +17,8 @@ export interface ExcursionFull {
 }
 
 export interface ExcursionPayload {
-    bykeId: number
+    userId: number
+    bikeId: number
     pathId: number
     departure: Date
 }
@@ -48,22 +49,26 @@ export interface Step {
     id: number
 }
 
-
 export interface Bike {
     id: number
-    owner: {
-        id: number
-        name: string
-    }
-    name: string
     purchaseDate: Date
     brand: string
     cassette: string
-    type: string
     wheels: string
 }
 
 export interface Profile {
     id: number
     username: string
+}
+
+export interface User {
+    id: 3,
+    username: string,
+    lastname: string,
+    firstname: string,
+    birthdate: string,
+    size: number,
+    weight: number,
+    purchases: Bike[],
 }
