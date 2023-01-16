@@ -65,8 +65,7 @@ export default defineComponent({
   name: "PathSelector",
   props: {
     modelValue: {
-      type: Object as PropType<FullPath | null>,
-      required: true,
+      type: Object as PropType<FullPath>,
     },
     disabled: {
       type: Boolean,
