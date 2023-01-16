@@ -23,10 +23,6 @@
       </tr>
       </tbody>
     </table>
-
-    <RouterLink to="#" @click="$router.push({name: 'sortie-list'})">Voir mes sorties</RouterLink>
-    <br>
-    <RouterLink to="#" @click="logout">Déconnexion</RouterLink>
   </div>
 
 </template>
