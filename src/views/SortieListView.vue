@@ -21,16 +21,15 @@
 
         </td>
         <td>
-          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#trash3"></use></svg></button>
+          <button type="button" class="btn btn-danger mr-1" @click="deleteItem(excursion.id)"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#trash3" fill="white"></use></svg></button>
         </td>
       </tr>
       </tbody>
     </table>
     <div>
       <button type="button" class="btn btn-primary mr-2" id="goToCreate" @click="$router.push({name: 'sortie-create'})">
+        <svg class="bi mb-1 me-1" width="20" height="20"><use xlink:href="#plus-square" fill="white"></use></svg>
         Nouvelle sortie
-        <svg class="bi mx-0" width="16" height="16"><use xlink:href="#plus-square"></use></svg>
-
       </button>
     </div>
   </div>

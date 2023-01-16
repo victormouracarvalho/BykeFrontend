@@ -9,7 +9,7 @@
     <PathSelector v-model="path"></PathSelector>
 
     <div >
-      <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter<svg class="bi mx-2" width="16" height="16"><use xlink:href="#check-square"></use></svg></button>
+      <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter<svg class="bi mx-2 mb-1" width="20" height="20"><use xlink:href="#check-square" fill="white"></use></svg></button>
     </div>
   </div>
 
