@@ -3,34 +3,30 @@
     <div class="container">
       <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
 
+      <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
+
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Trajet</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Départ</span>
         </div>
-        <input type="text" id="start" class="form-control" v-model="excursion.path.name" :disabled="ended">
+        <input type="text" class="form-control" v-model="excursion.departure" :disabled="ended">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Departure</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Arrivée</span>
         </div>
-        <input type="text" id="departure" class="form-control" v-model="excursion.departure" :disabled="ended">
+        <input type="text" class="form-control" v-model="arrivalOrMessage" disabled>
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Arrival</span>
+          <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
         </div>
-        <input type="text" id="arrival" class="form-control" v-model="arrivalOrMessage" disabled>
-      </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">BykeId</span>
-        </div>
-        <input type="text" id="bikeId" class="form-control" v-model="excursion.bykeId" :disabled="ended">
+        <input type="text" class="form-control" v-model="excursion.bykeId" :disabled="ended">
       </div>
     </div>
+
 
     <div class="container center-align">
       <button type="button" class="btn btn-success mx-2" @click="updateItem" v-if="ended === false">Modifier</button>
@@ -48,6 +44,7 @@ import ApiService from "../common/api.service";
 import LeafletMap from "../components/LeafletMap.vue";
 import { defineComponent } from "vue";
 import type { ExcursionFull, Step } from "@/common/types";
+import PathSelector from "@/components/PathSelector.vue";
 
 export default defineComponent({
   data() {
@@ -126,6 +123,7 @@ export default defineComponent({
   },
   components: {
     LeafletMap,
+    PathSelector,
   },
 });
 </script>

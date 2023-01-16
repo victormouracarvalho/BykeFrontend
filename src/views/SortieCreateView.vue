@@ -17,7 +17,7 @@
         <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
       </div>
 
-      <em>Sélecteur de trajet à rajouter</em>
+      <PathSelector v-model="path"></PathSelector>
 
       <div >
         <button type="button" class="btn btn-primary mr-2" @click="create">Add</button>
@@ -30,7 +30,8 @@
 <script lang="ts">
 import ApiService from "../common/api.service";
 import { defineComponent } from "vue";
-import type { ExcursionPayload } from "@/common/types";
+import type { ExcursionPayload, FullPath } from "@/common/types";
+import PathSelector from "@/components/PathSelector.vue";
 
 export default defineComponent({
   async created() {
@@ -45,13 +46,20 @@ export default defineComponent({
         "pathId": 0,
         "departure": "",
       } as ExcursionPayload,
+      path: null as FullPath | null,
     };
   },
   methods:{
     async create(){
+      if (this.path === null) {
+        alert("Veuillez sélectionner un trajet");
+        return;
+      }
+      this.excursion.pathId = this.path.id
       await ApiService.excursions.create(this.excursion)
       this.$router.push({name: "sortie-list"})
     }
   },
+  components: {PathSelector},
 });
 </script>

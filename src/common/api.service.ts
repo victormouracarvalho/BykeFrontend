@@ -1,6 +1,14 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
-import type { ExcursionFull, ExcursionPayload, ExcursionSimple, Profile, Bike } from "@/common/types";
+import type {
+    ExcursionFull,
+    ExcursionPayload,
+    ExcursionSimple,
+    Profile,
+    Bike,
+    SimplePath,
+    FullPath
+} from "@/common/types";
 
 const ApiService = {
     init() {
@@ -44,7 +52,7 @@ const ApiService = {
             return res.data
         },
         // DELETE /excursions/{id}
-        async delete(id: number): Promise<ExcursionFull>{
+        async delete(id: number): Promise<ExcursionFull> {
             const res = await axios.delete(`/excursions/${id}`)
             return res.data
         },
@@ -68,6 +76,20 @@ const ApiService = {
     profile: {
         async get(): Promise<Profile> {
             const res = await axios.get(`/profile`)
+            return res.data
+        }
+    },
+    paths: {
+        async getMine(): Promise<SimplePath[]> {
+            const res = await axios.get(`/paths/mine`)
+            return res.data
+        },
+        async getAll(): Promise<SimplePath[]> {
+            const res = await axios.get(`/paths/all`)
+            return res.data
+        },
+        async getFullPath(pathId: number): Promise<FullPath> {
+            const res = await axios.get(`/paths/${pathId}`)
             return res.data
         }
     }
