@@ -19,12 +19,7 @@
         <input type="text" class="form-control" v-model="arrivalOrMessage" disabled>
       </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
-        </div>
-        <input type="text" class="form-control" v-model="excursion.bykeId" :disabled="ended">
-      </div>
+      <BikeSelector v-model="excursion.bykeId" :disabled="ended"></BikeSelector>
     </div>
 
 
@@ -45,6 +40,7 @@ import LeafletMap from "../components/LeafletMap.vue";
 import { defineComponent } from "vue";
 import type { ExcursionFull, Step } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
+import BikeSelector from "@/components/BikeSelector.vue";
 
 export default defineComponent({
   data() {
@@ -122,6 +118,7 @@ export default defineComponent({
     },
   },
   components: {
+    BikeSelector,
     LeafletMap,
     PathSelector,
   },

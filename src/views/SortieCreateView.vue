@@ -3,12 +3,7 @@
     <div class="container">
       <h1>Nouvelle sortie</h1>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
-        </div>
-        <input type="text" id="bikeId" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.bykeId">
-      </div>
+      <BikeSelector v-model="excursion.bykeId" />
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -20,7 +15,7 @@
       <PathSelector v-model="path"></PathSelector>
 
       <div >
-        <button type="button" class="btn btn-primary mr-2" @click="create">Add</button>
+        <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter</button>
       </div>
     </div>
   </div>
@@ -32,6 +27,7 @@ import ApiService from "../common/api.service";
 import { defineComponent } from "vue";
 import type { ExcursionPayload, FullPath } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
+import BikeSelector from "@/components/BikeSelector.vue";
 
 export default defineComponent({
   async created() {
@@ -60,6 +56,6 @@ export default defineComponent({
       this.$router.push({name: "sortie-list"})
     }
   },
-  components: {PathSelector},
+  components: {BikeSelector, PathSelector},
 });
 </script>
