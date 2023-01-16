@@ -7,19 +7,19 @@
       <thead>
       <tr>
         <th>Marque</th>
+        <th>Roues</th>
         <th>Cassette</th>
-        <th>type</th>
-        <th>Wheels</th>
         <th>Date d'achat</th>
+        <th>Type</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="bike in bikes" :key="bike.id">
         <td>{{ bike.brand }}</td>
-        <td>{{ bike.cassette }}</td>
-        <td>{{ bike.type }}</td>
         <td>{{ bike.wheels }}</td>
-        <td>{{ bike.purchaseDate }}</td>
+        <td>{{ bike.cassette }}</td>
+        <td>{{ bike.purchaseDate.toLocaleDateString() }}</td>
+        <td>{{ bike.type }}</td>
       </tr>
       </tbody>
     </table>

@@ -1,8 +1,8 @@
 export interface ExcursionSimple {
     id: number
     bykeId: number
-    departure: string
-    arrival: string | null
+    departure: Date
+    arrival: Date | null
 
     pathName: string
 }
@@ -10,8 +10,8 @@ export interface ExcursionSimple {
 export interface ExcursionFull {
     id: number
     bykeId: number
-    departure: string
-    arrival: string | null
+    departure: Date
+    arrival: Date | null
 
     path: FullPath
 }
@@ -19,7 +19,7 @@ export interface ExcursionFull {
 export interface ExcursionPayload {
     bykeId: number
     pathId: number
-    departure: string
+    departure: Date
 }
 
 export interface SimplePath {
@@ -56,7 +56,7 @@ export interface Bike {
         name: string
     }
     name: string
-    purchaseDate: string
+    purchaseDate: Date
     brand: string
     cassette: string
     type: string

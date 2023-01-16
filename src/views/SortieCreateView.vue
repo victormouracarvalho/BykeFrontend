@@ -1,28 +1,20 @@
 <template>
-  <div>
-    <div class="container">
-      <h1>Nouvelle sortie</h1>
+  <div class="container">
+    <h1>Nouvelle sortie</h1>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
-        </div>
-        <input type="text" id="bikeId" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.bykeId">
-      </div>
+    <BikeSelector v-model="excursion.bykeId" />
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Date de départ</span>
-        </div>
-        <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
-      </div>
+    <DatetimeInput name="Départ" v-model="excursion.departure"></DatetimeInput>
 
-      <PathSelector v-model="path"></PathSelector>
+    <PathSelector v-model="path"></PathSelector>
 
-      <div >
-        <button type="button" class="btn btn-primary mr-2" @click="create">Add<svg class="bi mx-2" width="16" height="16"><use xlink:href="#check-square"></use></svg></button>
-      </div>
+    <div >
+      <button type="button" class="btn btn-primary mr-2" @click="create">Ajouter<svg class="bi mx-2 mb-1" width="20" height="20"><use xlink:href="#check-square" fill="white"></use></svg></button>
     </div>
+  </div>
+
+  <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
+    <LeafletMap :steps="path?.steps ?? []" :path="mapPath" :initial-zoom="10"/>
   </div>
 </template>
 
@@ -32,6 +24,9 @@ import ApiService from "../common/api.service";
 import { defineComponent } from "vue";
 import type { ExcursionPayload, FullPath } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
+import BikeSelector from "@/components/BikeSelector.vue";
+import LeafletMap from "@/components/LeafletMap.vue";
+import DatetimeInput from "@/components/DatetimeInput.vue";
 
 export default defineComponent({
   async created() {
@@ -44,7 +39,7 @@ export default defineComponent({
       excursion: {
         "bykeId": 0,
         "pathId": 0,
-        "departure": "",
+        "departure": new Date(),
       } as ExcursionPayload,
       path: null as FullPath | null,
     };
@@ -60,6 +55,14 @@ export default defineComponent({
       this.$router.push({name: "sortie-list"})
     }
   },
-  components: {PathSelector},
+  computed: {
+    mapPath() {
+      if (this.path === null) {
+        return [];
+      }
+      return this.path.steps.map(step => step.id)
+    },
+  },
+  components: {DatetimeInput, LeafletMap, BikeSelector, PathSelector},
 });
 </script>

@@ -66,7 +66,6 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Object as PropType<FullPath | null>,
-      required: true,
     },
     disabled: {
       type: Boolean,
