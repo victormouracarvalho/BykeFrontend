@@ -3,21 +3,8 @@
     <h1 class="display-4 fw-bold my-3">Sortie du {{ departureDay }}</h1>
 
     <PathSelector v-model="excursion.path" :disabled="ended"></PathSelector>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Départ</span>
-      </div>
-      <input type="text" class="form-control" v-model="excursion.departure" :disabled="ended">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Arrivée</span>
-      </div>
-      <input type="text" class="form-control" v-model="arrivalOrMessage" disabled>
-    </div>
-
+    <DatetimeInput name="Départ" v-model="excursion.departure" :disabled="ended" />
+    <DatetimeInput name="Arrivée" v-model="excursion.arrival" disabled nullMessage="En cours" />
     <BikeSelector v-model="excursion.bykeId" :disabled="ended"></BikeSelector>
   </div>
 
@@ -38,6 +25,7 @@ import { defineComponent } from "vue";
 import type { ExcursionFull } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
 import BikeSelector from "@/components/BikeSelector.vue";
+import DatetimeInput from "@/components/DatetimeInput.vue";
 
 export default defineComponent({
   data() {
@@ -47,8 +35,8 @@ export default defineComponent({
         id: 0,
         bykeId: 0,
         start: "",
-        departure: "",
-        arrival: "",
+        departure: new Date(),
+        arrival: new Date(),
         path: {
           id: 0,
           name: "",
@@ -67,6 +55,7 @@ export default defineComponent({
       return
     }
     this.excursion = await ApiService.excursions.get(this.id)
+    console.log(this.excursion.departure.toISOString())
   },
   computed: {
     departureDay() {
@@ -77,13 +66,6 @@ export default defineComponent({
     },
     ended() {
       return this.excursion.arrival != null
-    },
-    arrivalOrMessage() {
-      if (this.excursion.arrival == null) {
-        return "En cours"
-      } else {
-        return this.excursion.arrival
-      }
     },
     mapPath() {
       return this.excursion.path.steps.map(step => step.id)
@@ -110,6 +92,7 @@ export default defineComponent({
     BikeSelector,
     LeafletMap,
     PathSelector,
+    DatetimeInput,
   },
 });
 </script>
