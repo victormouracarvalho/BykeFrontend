@@ -25,7 +25,7 @@
         </div>
         <input type="text" class="form-control" v-model="excursion.bykeId" :disabled="ended">
       </div>
-    </div>x
+    </div>
 
 
     <div class="container center-align">
