@@ -20,7 +20,7 @@
       <em>Sélecteur de trajet à rajouter</em>
 
       <div >
-        <button type="button" class="btn btn-primary mr-2" @click="create">Add</button>
+        <button type="button" class="btn btn-primary mr-2" @click="create">Add<svg class="bi mx-2" width="16" height="16"><use xlink:href="#check-square"></use></svg></button>
       </div>
     </div>
   </div>
