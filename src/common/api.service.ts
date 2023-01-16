@@ -1,13 +1,13 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
 import type {
+    Bike,
     ExcursionFull,
     ExcursionPayload,
     ExcursionSimple,
+    FullPath,
     Profile,
-    Bike,
-    SimplePath,
-    FullPath
+    SimplePath
 } from "@/common/types";
 
 const ApiService = {
@@ -44,7 +44,13 @@ const ApiService = {
         // GET /excursions
         async getAll(): Promise<ExcursionSimple[]> {
             const res = await axios.get("/excursions")
-            return res.data
+            return res.data.map((excursion: any) => {
+                excursion.departure = dateFromBackend(excursion.departure)
+                if (excursion.arrival != null) {
+                    excursion.arrival = dateFromBackend(excursion.arrival)
+                }
+                return excursion
+            })
         },
         // GET /excursions/{id}
         async get(id: number): Promise<ExcursionFull> {
@@ -57,14 +63,20 @@ const ApiService = {
             return res.data
         },
         // PUT /excursions/{id}
-        async update(id: number, excursion: ExcursionPayload): Promise<ExcursionSimple>{
+        async update(id: number, excursion: ExcursionPayload): Promise<ExcursionSimple> {
             const res = await axios.put(`/excursions/${id}`, excursion)
-            return res.data
+            return res.data.map((excursion: any) => {
+                excursion.departure = dateFromBackend(excursion.departure)
+                return excursion
+            })
         },
         // POST /excursions
-        async create( excursion: ExcursionPayload): Promise<ExcursionSimple>{
+        async create(excursion: ExcursionPayload): Promise<ExcursionSimple> {
             const res = await axios.post(`/excursions`, excursion)
-            return res.data
+            return res.data.map((excursion: any) => {
+                excursion.departure = dateFromBackend(excursion.departure)
+                return excursion
+            })
         }
     },
     bikes: {
@@ -93,6 +105,16 @@ const ApiService = {
             return res.data
         }
     }
+}
+
+function dateFromBackend<T>(data: {[key: `${number}`]: string }): { [key in keyof T]: Date } {
+
+    data[field] = new Date(data[field])
+    return data
+}
+
+function dateToBackend(date: Date): string {
+    return date.toISOString().replace('T', ' ').split('.')[0]
 }
 
 export default ApiService

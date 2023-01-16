@@ -1,8 +1,8 @@
 export interface ExcursionSimple {
     id: number
     bykeId: number
-    departure: string
-    arrival: string | null
+    departure: Date
+    arrival: Date | null
 
     pathName: string
 }
