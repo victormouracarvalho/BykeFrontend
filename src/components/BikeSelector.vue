@@ -3,7 +3,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="inputGroup-sizing-default">Vélo</span>
     </div>
-    <select class="form-select" :value="modelValue" @change="event => update(+event.target.value)" :disabled="disabled">
+    <select class="form-select" :value="modelValue" @change="update" :disabled="disabled">
       <option value="0">Choisir un vélo</option>
       <template v-for="bike in bikeList" v-bind:key="bike.id">
         <option v-bind:value="bike.id">{{ bike.brand }}</option>
@@ -34,7 +34,8 @@ export default defineComponent({
     }
   },
   methods: {
-    update(bikeId: number) {
+    update(event: Event) {
+      let bikeId = +(event.target as HTMLSelectElement).value;
       this.$emit('update:modelValue', bikeId)
     },
   },

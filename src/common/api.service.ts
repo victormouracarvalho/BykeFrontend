@@ -58,13 +58,13 @@ const ApiService = {
     },
     // PUT /excursions/{id}
     async update(id: number, excursion: ExcursionPayload): Promise<ExcursionSimple> {
-      let payload = dateToBackend("departure")(excursion)
+      const payload = dateToBackend("departure")(excursion)
       const res = await axios.put(`/excursions/${id}`, payload)
       return dateFromBackend("departure")(dateFromBackend("arrival")(res.data))
     },
     // POST /excursions
     async create(excursion: ExcursionPayload): Promise<ExcursionSimple> {
-      let payload = dateToBackend("departure")(excursion)
+      const payload = dateToBackend("departure")(excursion)
       const res = await axios.post(`/excursions`, payload)
       return dateFromBackend("departure")(dateFromBackend("arrival")(res.data))
     }
@@ -89,7 +89,7 @@ const ApiService = {
       const res = await axios.get(`/paths/mine`)
       return res.data
     },
-    // GET /paths/all
+    // GET /paths/all
     async getAll(): Promise<SimplePath[]> {
       const res = await axios.get(`/paths/all`)
       return res.data
@@ -107,8 +107,10 @@ function dateFromBackend(field: string) {
     if (data[field] == null) {
       return data
     }
-    data[field] = new Date(data[field])
-    return data
+    return {
+      ...data,
+      [field]: new Date(data[field]),
+    }
   }
 }
 
@@ -117,8 +119,10 @@ function dateToBackend(field: string) {
     if (data[field] == null) {
       return data
     }
-    data[field] = data[field].toISOString().replace('T', ' ').split('.')[0]
-    return data
+    return {
+      ...data,
+      [field]: data[field].toISOString().replace('T', ' ').split('.')[0],
+    }
   }
 }
 

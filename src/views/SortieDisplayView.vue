@@ -10,7 +10,7 @@
 
   <div class="container center-align">
     <button type="button" class="btn btn-success" @click="updateItem" v-if="ended === false">Modifier</button>
-    <button type="button" class="btn btn-danger" :class="{'mx-3': ended == false}" @click="deleteItem">Supprimer</button>
+    <button type="button" class="btn btn-danger" :class="{'mx-3': ended === false}" @click="deleteItem">Supprimer</button>
   </div>
 
   <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
@@ -55,13 +55,9 @@ export default defineComponent({
       return
     }
     this.excursion = await ApiService.excursions.get(this.id)
-    console.log(this.excursion.departure.toISOString())
   },
   computed: {
     departureDay() {
-      if (this.excursion.departure === "") {
-        return ""
-      }
       return new Date(this.excursion.departure).toLocaleDateString()
     },
     ended() {

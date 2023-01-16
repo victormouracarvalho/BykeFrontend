@@ -4,12 +4,7 @@
 
     <BikeSelector v-model="excursion.bykeId" />
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Date de départ</span>
-      </div>
-      <input type="text" id="departure" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="excursion.departure">
-    </div>
+    <DatetimeInput name="Départ" v-model="excursion.departure"></DatetimeInput>
 
     <PathSelector v-model="path"></PathSelector>
 
@@ -31,6 +26,7 @@ import type { ExcursionPayload, FullPath } from "@/common/types";
 import PathSelector from "@/components/PathSelector.vue";
 import BikeSelector from "@/components/BikeSelector.vue";
 import LeafletMap from "@/components/LeafletMap.vue";
+import DatetimeInput from "@/components/DatetimeInput.vue";
 
 export default defineComponent({
   async created() {
@@ -43,7 +39,7 @@ export default defineComponent({
       excursion: {
         "bykeId": 0,
         "pathId": 0,
-        "departure": "",
+        "departure": new Date(),
       } as ExcursionPayload,
       path: null as FullPath | null,
     };
@@ -67,6 +63,6 @@ export default defineComponent({
       return this.path.steps.map(step => step.id)
     },
   },
-  components: {LeafletMap, BikeSelector, PathSelector},
+  components: {DatetimeInput, LeafletMap, BikeSelector, PathSelector},
 });
 </script>

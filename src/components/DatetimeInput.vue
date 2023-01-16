@@ -4,14 +4,14 @@
       <span class="input-group-text">{{ name }}</span>
     </div>
     <template></template>
-    <input :type="modelValue != null ? 'datetime-local' : 'text'" class="form-control" :value="dateString" @change="event => update(event.target.value)" :disabled="disabled">
+    <input :type="modelValue != null ? 'datetime-local' : 'text'" class="form-control" :value="dateString"
+           @change="update" :disabled="disabled">
   </div>
 </template>
 
 <script lang="ts">
+import type { PropType } from "vue";
 import { defineComponent } from "vue";
-import type { Bike } from "@/common/types";
-import ApiService from "@/common/api.service";
 
 export default defineComponent({
   name: 'DatetimeInput',
@@ -21,7 +21,7 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
-      type: Date,
+      type: Object as PropType<Date | null>,
     },
     disabled: {
       type: Boolean,
@@ -32,9 +32,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    update(inputValue: string) {
-      let date = new Date(inputValue)
-      this.$emit('update:modelValue', date)
+    update(event: Event) {
+      let inputValue = (event.target as HTMLInputElement).value;
+      if (inputValue === '') {
+        return
+      }
+      this.$emit('update:modelValue', new Date(inputValue + 'Z'))
     },
   },
   computed: {
