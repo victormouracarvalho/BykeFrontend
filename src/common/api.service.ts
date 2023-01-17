@@ -126,7 +126,7 @@ const ApiService = {
                     id: res.data.creator.id,
                     username: res.data.creator.username,
                 },
-                steps: res.data.pathsteps.map((step: any) => ({
+                steps: res.data.pathsteps.sort((a: any, b: any) => a.id.position - b.id.position).map((step: any) => ({
                     id: step.step.id,
                     location: step.step.location,
                     latitude: step.step.latitude,
