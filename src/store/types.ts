@@ -3,6 +3,7 @@ import type { Store } from "vuex";
 export interface State {
     token: string | null
     error: string | null
+    userId: number | null
 }
 
 export interface LoginPayload {
@@ -12,6 +13,8 @@ export interface LoginPayload {
 
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
-        $store: Store<State>
+        $store: Store<{
+            auth: State
+        }>
     }
 }

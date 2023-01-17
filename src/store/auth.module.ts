@@ -9,9 +9,11 @@ const Auth = {
         if (token != null) {
             ApiService.setAuthHeader(token)
         }
+        const userId = JwtService.getUserId()
         return {
             token: token,
             error: null,
+            userId: userId,
         }
     },
     getters: {
@@ -32,15 +34,24 @@ const Auth = {
         clearError(state: State) {
             state.error = null
         },
+        setUserId(state: State, userId: number) {
+            state.userId = userId
+        },
+        clearUserId(state: State) {
+            state.userId = null
+        }
     },
     actions: {
         async login({commit}: ActionContext<State, any>, {username, password}: LoginPayload) {
             try {
                 commit('clearError')
-                const response = await ApiService.auth.login(username, password)
-                commit('setToken', response.data.token)
-                JwtService.saveToken(response.data.token)
-                ApiService.setAuthHeader(response.data.token)
+                const { token } = await ApiService.auth.login(username, password)
+                commit('setToken', token)
+                JwtService.saveToken(token)
+                ApiService.setAuthHeader(token)
+                const user = await ApiService.auth.user()
+                commit('setUserId', user.id)
+                JwtService.saveUserId(user.id)
             } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
                 commit('setError', err.message)
@@ -52,16 +63,15 @@ const Auth = {
         },
         async logout({commit}: ActionContext<State, any>) {
             commit('clearToken')
+            commit('clearUserId')
             JwtService.destroyToken()
+            JwtService.destroyUserId()
             ApiService.removeAuthHeader()
         },
         async register({commit}: ActionContext<State, any>, {username, password}: LoginPayload) {
             try {
                 commit('clearError')
-                const response = await ApiService.auth.register(username, password)
-                commit('setToken', response.data.token)
-                JwtService.saveToken(response.data.token)
-                ApiService.setAuthHeader(response.data.token)
+                await ApiService.auth.register(username, password)
             } catch (err: any) {
                 // TODO https://axios-http.com/docs/handling_errors
                 commit('setError', err.message)

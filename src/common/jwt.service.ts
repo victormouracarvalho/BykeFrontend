@@ -1,4 +1,5 @@
 const ID_TOKEN_KEY = "id_token";
+const ID_USER_KEY = "user_id";
 
 const JwtService = {
     getToken() {
@@ -9,6 +10,16 @@ const JwtService = {
     },
     destroyToken() {
         window.localStorage.removeItem(ID_TOKEN_KEY);
+    },
+
+    getUserId() {
+        return parseInt(window.localStorage.getItem(ID_USER_KEY) || "0");
+    },
+    saveUserId(userId: number) {
+        window.localStorage.setItem(ID_USER_KEY, userId.toString());
+    },
+    destroyUserId() {
+        window.localStorage.removeItem(ID_USER_KEY);
     },
 }
 
