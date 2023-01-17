@@ -93,7 +93,16 @@ const ApiService = {
                 pathId: payload.pathId,
                 departure: dateToBackend(payload.departure),
             })
-        }
+        },
+        // PUT /excursions/{id}/end
+        async end(id: number, payload: ExcursionPayload) {
+            await axios.put(`/excursions/${id}/end`, {
+                bikeId: payload.bikeId,
+                pathId: payload.pathId,
+                departure: dateToBackend(payload.departure),
+                arrival: dateToBackend(new Date()),
+            })
+        },
     },
     paths: {
         // GET /paths
