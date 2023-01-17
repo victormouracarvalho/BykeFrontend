@@ -1,6 +1,7 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
 import type {
+    Bike,
     ExcursionFull,
     ExcursionPayload,
     ExcursionSimple,
@@ -153,6 +154,17 @@ const ApiService = {
             const res = await axios.get(`/steps`)
             return res.data
         }
+    },
+    bikes: {
+        // PUT /bikes/{userId}
+        async add(userId: number, bike: Bike) {
+            await axios.put(`/bikes/${userId}`, {
+                brand: bike.brand,
+                cassette: bike.cassette,
+                wheels: bike.wheels,
+                purchaseDate: bike.purchaseDate,
+            })
+        },
     },
 }
 

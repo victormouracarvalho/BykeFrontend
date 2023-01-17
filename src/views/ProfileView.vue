@@ -20,8 +20,19 @@
           <td>{{ bike.cassette }}</td>
           <td>{{ bike.purchaseDate.toLocaleDateString() }}</td>
         </tr>
+        <tr v-if="displayInput">
+          <td><input type="text" class="form-control" v-model="bike.brand"></td>
+          <td><input type="text" class="form-control" v-model="bike.wheels"></td>
+          <td><input type="text" class="form-control" v-model="bike.cassette"></td>
+          <td><datetime-input name="Achat" no-prepend v-model="bike.purchaseDate"></datetime-input></td>
+        </tr>
         </tbody>
       </table>
+      <div>
+        <button type="button" class="btn btn-primary" @click="addRow" v-if="displayInput === false">Ajouter un vélo</button>
+        <button type="button" class="btn btn-success me-2" @click="saveRow" v-if="displayInput === true">Enregistrer</button>
+        <button type="button" class="btn btn-danger" @click="displayInput = false" v-if="displayInput === true">Annuler</button>
+      </div>
     </template>
   </div>
 </template>
@@ -30,9 +41,11 @@
 import { defineComponent } from "vue";
 import type { User } from "@/common/types";
 import ApiService from "@/common/api.service";
+import DatetimeInput from "@/components/DatetimeInput.vue";
 
 export default defineComponent({
   name: "ProfileView",
+  components: {DatetimeInput},
   async created() {
     if (this.$store.getters.isAuthenticated === false) {
       this.$router.push({name: "login"})
@@ -41,7 +54,15 @@ export default defineComponent({
   },
   data() {
     return {
-      user: null as User | null
+      user: null as User | null,
+      bike: {
+        id: 0,
+        brand: "",
+        wheels: "",
+        cassette: "",
+        purchaseDate: new Date(),
+      },
+      displayInput: false,
     }
   },
   methods: {
@@ -49,6 +70,13 @@ export default defineComponent({
       this.$store
           .dispatch("logout")
           .then(() => this.$router.push({name: "home"}));
+    },
+    addRow() {
+      this.displayInput = true
+    },
+    async saveRow() {
+      await ApiService.bikes.add(this.user?.id || 0, this.bike)
+      this.displayInput = false
     },
   },
 });

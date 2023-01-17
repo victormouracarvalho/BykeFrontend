@@ -1,6 +1,6 @@
 <template>
   <div class="input-group mb-3">
-    <div class="input-group-prepend">
+    <div class="input-group-prepend" v-if="noPrepend === false">
       <span class="input-group-text">{{ name }}</span>
     </div>
     <input :type="modelValue != null ? 'datetime-local' : 'text'" class="form-control" :value="dateString"
@@ -28,6 +28,7 @@ export default defineComponent({
     nullMessage: {
       type: String,
     },
+    noPrepend: Boolean,
   },
   emits: ['update:modelValue'],
   methods: {
