@@ -2,6 +2,7 @@
 import BootstrapHero from "@/components/BootstrapHero.vue";
 import BootstrapFeatures from "@/components/BootstrapFeatures.vue";
 import { defineComponent } from "vue";
+
 export default defineComponent({
   name: "HomeView",
   components: {
@@ -17,8 +18,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <main>
-    <BootstrapHero img="/assets/geojango-maps-Z8UgB80_46w-unsplash.jpg" :authenticated="isAuthenticated"></BootstrapHero>
-    <BootstrapFeatures></BootstrapFeatures>
-  </main>
+  <BootstrapHero img="/assets/geojango-maps-Z8UgB80_46w-unsplash.jpg" :authenticated="isAuthenticated"></BootstrapHero>
+  <BootstrapFeatures></BootstrapFeatures>
 </template>

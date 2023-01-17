@@ -28,7 +28,9 @@ import { RouterView } from 'vue-router'
 
 <template>
   <BootstrapNavbar />
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
   <BootstrapFooter name="Projet Byke" year="2023"></BootstrapFooter>
   <!-- inject bootstrap icons svg file -->
   <div v-html="bootstrapIcons" style="display: none;"></div>
