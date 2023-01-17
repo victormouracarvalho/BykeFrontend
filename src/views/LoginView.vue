@@ -9,15 +9,16 @@
             </p>
           <p v-if="error" class="error-messages">{{ error }}</p>
           <form @submit.prevent="onSubmit">
-            <fieldset class="form-group">
+            <fieldset class="form-group mb-2">
               <input
                   class="form-control form-control-lg"
                   type="text"
                   v-model="username"
                   placeholder="Pseudo"
+                  autofocus
               />
             </fieldset>
-            <fieldset class="form-group">
+            <fieldset class="form-group mb-2">
               <input
                   class="form-control form-control-lg"
                   type="password"
