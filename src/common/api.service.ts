@@ -123,7 +123,7 @@ const ApiService = {
                 name: res.data.name,
                 creator: {
                     id: res.data.creator.id,
-                    name: res.data.creator.username,
+                    username: res.data.creator.username,
                 },
                 steps: res.data.pathsteps.map((step: any) => ({
                     id: step.step.id,
