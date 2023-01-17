@@ -77,14 +77,13 @@ const ApiService = {
             })
         },
         // POST /excursions
-        async create(payload: ExcursionPayload): Promise<number> {
-            const res = await axios.post(`/excursions`, {
+        async create(payload: ExcursionPayload) {
+            await axios.post(`/excursions`, {
                 userId: payload.userId,
                 bikeId: payload.bikeId,
                 pathId: payload.pathId,
                 departure: dateToBackend(payload.departure),
             })
-            return res.data.id
         }
     },
     paths: {
