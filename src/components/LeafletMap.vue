@@ -1,5 +1,5 @@
 <template>
-  <l-map ref="map" v-model:zoom="zoom" :center="center" :minZoom="3" :maxZoom="18">
+  <l-map ref="map" v-model:zoom="zoom" :center="center" :minZoom="3" :maxZoom="18" @click="event => pointClick(event)">
     <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         layer-type="base"
@@ -10,6 +10,7 @@
     <template v-for="step in steps" :key="step.id">
       <l-marker :lat-lng="[+step.latitude, +step.longitude]" :icon="icons[step.id]" @click="stepClick(step.id)">
         <l-popup v-if="selectStep == null"> {{ step.location }}</l-popup>
+        <l-tooltip v-else> {{ step.location }}</l-tooltip>
       </l-marker>
     </template>
 
@@ -23,7 +24,7 @@
 <script lang="ts">
 import 'leaflet'
 import "leaflet/dist/leaflet.css";
-import { LMap, LMarker, LPolyline, LPopup, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import { LMap, LMarker, LPolyline, LPopup, LTileLayer, LTooltip } from "@vue-leaflet/vue-leaflet";
 import L from "leaflet";
 import type { PropType } from "vue";
 import { defineComponent } from "vue";
@@ -57,6 +58,9 @@ export default defineComponent({
     selectStep: {
       type: Function,
     },
+    selectPoint: {
+      type: Function,
+    },
   },
   components: {
     LMap,
@@ -64,6 +68,7 @@ export default defineComponent({
     LMarker,
     LPopup,
     LPolyline,
+    LTooltip,
   },
   data() {
     return {
@@ -119,8 +124,11 @@ export default defineComponent({
     stepClick(id: number) {
       if (this.selectStep instanceof Function) {
         this.selectStep(id);
-      } else {
-        return true
+      }
+    },
+    pointClick(event: any) {
+      if (this.selectPoint instanceof Function) {
+        this.selectPoint(event);
       }
     },
   },

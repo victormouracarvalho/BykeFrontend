@@ -62,14 +62,16 @@
               <button type="button" class="btn btn-primary mr-2" @click="createPath">Créer</button>
             </div>
             <div class="px-4 mx-auto my-5" style="height:600px; width:600px">
-              <LeafletMap :steps="allSteps" :path="newPath.steps" :initial-zoom="10" :select-step="addOrRemoveStep"/>
+              <LeafletMap :steps="allSteps" :path="newPath.steps" :initial-zoom="10" :select-step="addOrRemoveStep"
+                          :select-point="placingStep ? selectPoint : null"/>
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Ajouter une étape</span>
               </div>
               <input type="text" class="form-control" v-model="newStep.location">
-              <button type="button" class="btn btn-primary mr-2" @click="placeStep" :disabled="placingStep">Placer</button>
+              <button type="button" class="btn btn-primary mr-2" @click="placeStep" :disabled="placingStep">Placer
+              </button>
             </div>
           </div>
         </div>
@@ -160,7 +162,11 @@ export default defineComponent({
         return
       }
       this.placingStep = true
-    }
+    },
+    selectPoint(point: any) {
+      this.placingStep = false
+      console.log(point)
+    },
   },
   computed: {
     tabPathList() {
