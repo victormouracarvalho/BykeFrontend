@@ -64,6 +64,13 @@
             <div class="px-4 mx-auto my-5" style="height:600px; width:600px">
               <LeafletMap :steps="allSteps" :path="newPath.steps" :initial-zoom="10" :select-step="addOrRemoveStep"/>
             </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Ajouter une étape</span>
+              </div>
+              <input type="text" class="form-control" v-model="newStep.location">
+              <button type="button" class="btn btn-primary mr-2" @click="placeStep" :disabled="placingStep">Placer</button>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -104,6 +111,14 @@ export default defineComponent({
         creatorId: 0,
         steps: [],
       } as NewPath,
+      newStep: {
+        id: 0,
+        location: '',
+        latitude: '0',
+        longitude: '0',
+        creator: null,
+      } as Step,
+      placingStep: false,
     }
   },
   methods: {
@@ -139,6 +154,13 @@ export default defineComponent({
         this.newPath.steps.push(stepId)
       }
     },
+    placeStep() {
+      if (this.newStep?.location === "") {
+        alert("Veuillez indiquer un nom avant de placer l'étape")
+        return
+      }
+      this.placingStep = true
+    }
   },
   computed: {
     tabPathList() {
