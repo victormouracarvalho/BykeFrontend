@@ -8,8 +8,8 @@
     ></l-tile-layer>
 
     <template v-for="step in steps" :key="step.id">
-      <l-marker :lat-lng="[+step.latitude, +step.longitude]" :icon="icons[step.id]">
-        <l-popup> {{ step.location }}</l-popup>
+      <l-marker :lat-lng="[+step.latitude, +step.longitude]" :icon="icons[step.id]" @click="stepClick(step.id)">
+        <l-popup v-if="selectStep == null"> {{ step.location }}</l-popup>
       </l-marker>
     </template>
 
@@ -33,7 +33,7 @@ export default defineComponent({
   name: "LeafletMap",
   props: {
     steps: {
-      type: Array as PropType<Step[]>,
+      type: Array as PropType<Step[] | null>,
       default() {
         return []
       },
@@ -54,6 +54,9 @@ export default defineComponent({
         return [45.779152085757225, 4.868157419346505]
       },
     },
+    selectStep: {
+      type: Function,
+    },
   },
   components: {
     LMap,
@@ -70,10 +73,10 @@ export default defineComponent({
   },
   computed: {
     dict() {
-      return this.steps.reduce((acc, step) => {
+      return this.steps?.reduce((acc, step) => {
         acc[step.id] = step;
         return acc;
-      }, {} as { [key: number]: Step });
+      }, {} as { [key: number]: Step }) || {}
     },
     polyline() {
       return this.path.map((id) => [this.dict[id].latitude, this.dict[id].longitude]);
@@ -111,7 +114,16 @@ export default defineComponent({
       }
       return icons
     },
-  }
+  },
+  methods: {
+    stepClick(id: number) {
+      if (this.selectStep instanceof Function) {
+        this.selectStep(id);
+      } else {
+        return true
+      }
+    },
+  },
 });
 </script>
 

@@ -58,7 +58,7 @@ export default defineComponent({
         return;
       }
       await ApiService.excursions.delete(id)
-      alert("L'item est viens supprimé");
+      this.excursions = this.excursions.filter((item) => item.id !== id);
     },
     goToView(id: number) {
       this.$router.push({name: "sortie-view", params: {id: id}})

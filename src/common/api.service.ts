@@ -1,6 +1,15 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
-import type { ExcursionFull, ExcursionPayload, ExcursionSimple, FullPath, SimplePath, User } from "@/common/types";
+import type {
+    ExcursionFull,
+    ExcursionPayload,
+    ExcursionSimple,
+    FullPath,
+    NewPath,
+    SimplePath,
+    Step,
+    User
+} from "@/common/types";
 
 const ApiService = {
     init() {
@@ -115,7 +124,7 @@ const ApiService = {
                 name: res.data.name,
                 creator: {
                     id: res.data.creator.id,
-                    name: res.data.creator.username,
+                    username: res.data.creator.username,
                 },
                 steps: res.data.pathsteps.map((step: any) => ({
                     id: step.step.id,
@@ -124,8 +133,27 @@ const ApiService = {
                     longitude: step.step.longitude,
                 })),
             }
+        },
+        // POST /paths/{pathId}
+        async create(path: NewPath): Promise<number> {
+            const res = await axios.post(`/paths`, {
+                name: path.name,
+                creatorId: path.creatorId,
+            })
+            return res.data.id
+        },
+        // PUT /paths/{pathId}/steps/add/{stepsIds}
+        async initSteps(id: number, path: NewPath) {
+            await axios.put(`/paths/${id}/steps/add/${path.steps.join(",")}`)
         }
-    }
+    },
+    steps: {
+        // GET /steps
+        async getAll(): Promise<Step[]> {
+            const res = await axios.get(`/steps`)
+            return res.data
+        }
+    },
 }
 
 function dateFromBackend(date: string): Date | null {
@@ -143,7 +171,7 @@ function dateFromBackendNotNull(date: string): Date {
 }
 
 function dateToBackend(date: Date): string {
-    return date.toISOString().replace('T', ' ').split('.')[0]
+    return date.toISOString().split('.')[0] + 'Z'
 }
 
 export default ApiService

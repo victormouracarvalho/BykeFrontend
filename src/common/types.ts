@@ -37,9 +37,15 @@ export interface FullPath {
     steps: Step[]
 }
 
+export interface NewPath {
+    name: string
+    creatorId: number
+    steps: number[]
+}
+
 export interface Creator {
     id: number
-    name: string
+    username: string
 }
 
 export interface Step {
@@ -47,6 +53,7 @@ export interface Step {
     latitude: string,
     longitude: string,
     id: number
+    creator: Creator | null
 }
 
 export interface Bike {
