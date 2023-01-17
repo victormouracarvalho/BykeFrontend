@@ -1,6 +1,14 @@
 import axios from "axios"
 import { API_URL } from "@/common/config"
-import type { ExcursionFull, ExcursionPayload, ExcursionSimple, FullPath, SimplePath, User } from "@/common/types";
+import type {
+    ExcursionFull,
+    ExcursionPayload,
+    ExcursionSimple,
+    FullPath,
+    SimplePath,
+    Step,
+    User
+} from "@/common/types";
 
 const ApiService = {
     init() {
@@ -125,7 +133,14 @@ const ApiService = {
                 })),
             }
         }
-    }
+    },
+    steps: {
+        // GET /steps
+        async getAll(): Promise<Step[]> {
+            const res = await axios.get(`/steps`)
+            return res.data
+        }
+    },
 }
 
 function dateFromBackend(date: string): Date | null {
@@ -143,7 +158,7 @@ function dateFromBackendNotNull(date: string): Date {
 }
 
 function dateToBackend(date: Date): string {
-    return date.toISOString().replace('T', ' ').split('.')[0]
+    return date.toISOString().split('.')[0] + 'Z'
 }
 
 export default ApiService
