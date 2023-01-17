@@ -33,7 +33,7 @@ export default defineComponent({
   name: "LeafletMap",
   props: {
     steps: {
-      type: Array as PropType<Step[]>,
+      type: Array as PropType<Step[] | null>,
       default() {
         return []
       },
@@ -73,10 +73,10 @@ export default defineComponent({
   },
   computed: {
     dict() {
-      return this.steps.reduce((acc, step) => {
+      return this.steps?.reduce((acc, step) => {
         acc[step.id] = step;
         return acc;
-      }, {} as { [key: number]: Step });
+      }, {} as { [key: number]: Step }) || {}
     },
     polyline() {
       return this.path.map((id) => [this.dict[id].latitude, this.dict[id].longitude]);

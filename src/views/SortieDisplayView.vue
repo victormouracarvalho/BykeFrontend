@@ -42,7 +42,7 @@ export default defineComponent({
           name: "",
           creator: {
             id: 0,
-            name: "",
+            username: "",
           },
           steps: [],
         },
