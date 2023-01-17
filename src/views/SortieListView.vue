@@ -7,7 +7,6 @@
         <th>Trajet</th>
         <th>Début</th>
         <th>Fin</th>
-        <th>Distance</th>
       </tr>
       </thead>
       <tbody>
@@ -15,7 +14,6 @@
         <td>{{ excursion.pathName }}</td>
         <td>{{ departurePretty[excursion.id] }}</td>
         <td>{{ arrivalPretty[excursion.id] }}</td>
-        <td> TODO</td>
         <td>
           <button type="button" class="btn btn-success mr-2" id="goToView" @click="goToView(excursion.id)">{{ excursion.arrival != null ? 'Voir' : 'Modifier'}}</button>
         </td>
