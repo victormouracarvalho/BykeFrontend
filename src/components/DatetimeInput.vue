@@ -3,7 +3,6 @@
     <div class="input-group-prepend">
       <span class="input-group-text">{{ name }}</span>
     </div>
-    <template></template>
     <input :type="modelValue != null ? 'datetime-local' : 'text'" class="form-control" :value="dateString"
            @change="update" :disabled="disabled">
   </div>
