@@ -9,8 +9,9 @@
   </div>
 
   <div class="container center-align">
-    <button type="button" class="btn btn-success" @click="updateItem" v-if="ended === false"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#arrow-clockwise" fill="white"></use></svg> Modifier</button>
-    <button type="button" class="btn btn-danger" :class="{'mx-3': ended === false}" @click="deleteItem">Supprimer</button>
+    <button type="button" class="btn btn-success me-3" @click="updateItem" v-if="ended === false"><svg class="bi mx-0" width="16" height="16"><use xlink:href="#arrow-clockwise" fill="white"></use></svg> Modifier</button>
+    <button type="button" class="btn btn-primary me-3" @click="endItem" v-if="ended === false">Terminer</button>
+    <button type="button" class="btn btn-danger" @click="deleteItem">Supprimer</button>
   </div>
 
   <div class="px-4 mx-auto my-5" style="height:600px; width:800px">
@@ -75,7 +76,6 @@ export default defineComponent({
         pathId: this.excursion.path.id,
         departure: this.excursion.departure,
       })
-      this.$router.push({name: "sortie-list"})
     },
     async deleteItem() {
       if (!confirm("Supprimer l'item ?")) {
@@ -83,6 +83,18 @@ export default defineComponent({
       }
       await ApiService.excursions.delete(this.id)
       this.$router.push({name: "sortie-list"})
+    },
+    async endItem() {
+      if (!confirm("Terminer l'excursion ? Vous ne pourrez plus la modifier.")) {
+        return;
+      }
+      await ApiService.excursions.end(this.id, {
+        userId: 0,
+        bikeId: this.excursion.bikeId,
+        pathId: this.excursion.path.id,
+        departure: this.excursion.departure,
+      })
+      this.excursion = await ApiService.excursions.get(this.id)
     },
   },
   components: {
