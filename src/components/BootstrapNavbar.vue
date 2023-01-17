@@ -11,16 +11,15 @@
       <div v-if="authenticated===false">
         <ul class="nav nav-pills">
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'home'}" @click="goToView('home')" style="cursor: pointer">Home</a></li>
-          <li class="nav-item"><a class="nav-link" style="cursor: pointer">About</a></li>
+          <li class="nav-item"><a class="nav-link" :class="{active: page === 'slides'}" @click="goToView('slides')" style="cursor: pointer" data-bs-target="#carousel" data-bs-slide="next">About</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'login'}" @click="goToView('login')" style="cursor: pointer">Login</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'register'}" @click="goToView('register')" style="cursor: pointer"><svg class="bi mx-2 mb-1" width="20" height="20"><use xlink:href="#person-circle" :fill="page === 'register' ? 'white' : '#227bfd'"></use></svg>Register</a></li>
-
         </ul>
       </div>
       <div v-if="authenticated===true">
         <ul class="nav nav-pills">
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'home'}" @click="goToView('home')" style="cursor: pointer">Home</a></li>
-          <li class="nav-item"><a class="nav-link" style="cursor: pointer">About</a></li>
+          <li class="nav-item"><a class="nav-link" :class="{active: page === 'slides'}" @click="goToView('slides')" style="cursor: pointer" data-bs-target="#carousel" data-bs-slide="next">About</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'profile'}" @click="goToView('profile')" style="cursor: pointer">Profil</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page?.startsWith('sortie')}" @click="goToView('sortie-list')" style="cursor: pointer">Sorties</a></li>
           <li class="nav-item"><a class="nav-link" :class="{active: page === 'logout'}" @click='logout' style="cursor: pointer">Logout<svg class="bi mx-2 mb-1" width="14" height="16"><use xlink:href="#box-arrow-right" fill="#227bfd"></use></svg></a></li>

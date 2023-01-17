@@ -68,6 +68,14 @@ const router = createRouter({
                 title: "Sortie - Create",
             }
         },
+        {
+            path: '/about',
+            name: 'slides',
+            component: () => import('../views/SlideView.vue'),
+            meta: {
+                title: "Projet Byke",
+            }
+        }
     ]
 })
 
