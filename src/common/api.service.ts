@@ -5,6 +5,7 @@ import type {
     ExcursionPayload,
     ExcursionSimple,
     FullPath,
+    NewPath,
     SimplePath,
     Step,
     User
@@ -132,6 +133,18 @@ const ApiService = {
                     longitude: step.step.longitude,
                 })),
             }
+        },
+        // POST /paths/{pathId}
+        async create(path: NewPath): Promise<number> {
+            const res = await axios.post(`/paths`, {
+                name: path.name,
+                creatorId: path.creatorId,
+            })
+            return res.data.id
+        },
+        // PUT /paths/{pathId}/steps/add/{stepsIds}
+        async initSteps(id: number, path: NewPath) {
+            await axios.put(`/paths/${id}/steps/add/${path.steps.join(",")}`)
         }
     },
     steps: {

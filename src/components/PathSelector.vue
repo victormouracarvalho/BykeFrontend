@@ -5,7 +5,7 @@
     </div>
     <button class="form-control text-start" data-bs-toggle="modal" data-bs-target="#pathSelector" :disabled="disabled">
       <template v-if="modelValue != null">
-        {{ modelValue.name}}
+        {{ modelValue.name }}
       </template>
       <template v-else>
         Choisir un trajet
@@ -25,26 +25,30 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-default">Trajet actuel</span>
             </div>
-            <input type="text" class="form-control" :value="modelValue != null ? modelValue.name : 'Aucun trajet sélectionné'" disabled>
+            <input type="text" class="form-control"
+                   :value="modelValue != null ? modelValue.name : 'Aucun trajet sélectionné'" disabled>
           </div>
           <div class="container">
             <ul class="nav nav-pills nav-fill">
               <li class="nav-item">
-                <a class="nav-link" :class="{active: currentTab === 1}" @click="currentTab = 1" style="cursor:pointer;">Mes trajets</a>
+                <a class="nav-link" :class="{active: currentTab === 1}" @click="currentTab = 1" style="cursor:pointer;">Mes
+                  trajets</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" :class="{active: currentTab === 2}" @click="currentTab = 2" style="cursor:pointer;">La communauté</a>
+                <a class="nav-link" :class="{active: currentTab === 2}" @click="currentTab = 2" style="cursor:pointer;">La
+                  communauté</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" :class="{active: currentTab === 3}" @click="currentTab = 3" style="cursor:pointer;">Créer un trajet</a>
+                <a class="nav-link" :class="{active: currentTab === 3}" @click="currentTab = 3" style="cursor:pointer;">Créer
+                  un trajet</a>
               </li>
             </ul>
             <br>
             <div class="list-group" v-if="currentTab <= 2">
               <template v-for="path in tabPathList" v-bind:key="path.id">
                 <button class="list-group-item list-group-item-action" @click="changePath(path)">
-                  {{path.name}}
-                  <span v-if="currentTab === 2" class="fw-light">par {{path.creatorName}}</span>
+                  {{ path.name }}
+                  <span v-if="currentTab === 2" class="fw-light">par {{ path.creatorName }}</span>
                 </button>
               </template>
             </div>
@@ -58,7 +62,7 @@
               <button type="button" class="btn btn-primary mr-2" @click="createPath">Créer</button>
             </div>
             <div class="px-4 mx-auto my-5" style="height:600px; width:600px">
-              <LeafletMap :steps="allSteps" :path="newPath.steps" :initial-zoom="10"/>
+              <LeafletMap :steps="allSteps" :path="newPath.steps" :initial-zoom="10" :select-step="addOrRemoveStep"/>
             </div>
           </div>
         </div>
@@ -95,7 +99,11 @@ export default defineComponent({
       pathList: [] as SimplePath[],
       currentTab: 1,
       allSteps: null as Step[] | null,
-      newPath: null as NewPath | null,
+      newPath: {
+        name: '',
+        creatorId: 0,
+        steps: [],
+      } as NewPath,
     }
   },
   methods: {
@@ -112,12 +120,25 @@ export default defineComponent({
         alert("Le trajet doit contenir au moins 2 étapes")
         return
       }
-      // create path (2 api calls)
-      // get full path
-      // add path to other paths
-      // current tab = 1
-      // emit update with full path
-    }
+      this.newPath.creatorId = this.user?.id ?? 0
+      const newPathId = await ApiService.paths.create(this.newPath)
+      await ApiService.paths.initSteps(newPathId, this.newPath)
+      let newPath = await ApiService.paths.getFullPath(newPathId)
+      this.pathList.push({
+        id: newPathId,
+        name: newPath.name,
+        creatorName: newPath.creator.username,
+      })
+      this.currentTab = 1
+      this.$emit('update:modelValue', newPath)
+    },
+    addOrRemoveStep(stepId: number) {
+      if (this.newPath?.steps?.includes(stepId)) {
+        this.newPath.steps = this.newPath.steps.filter(s => s !== stepId)
+      } else {
+        this.newPath.steps.push(stepId)
+      }
+    },
   },
   computed: {
     tabPathList() {
@@ -139,13 +160,6 @@ export default defineComponent({
       if (tab === 3) {
         if (this.allSteps == null) {
           this.allSteps = await ApiService.steps.getAll()
-        }
-        if (this.newPath == null) {
-          this.newPath = {
-            name: '',
-            creatorId: this.user?.id ?? 0,
-            steps: [],
-          }
         }
       }
     }
